@@ -56,14 +56,14 @@ const ButtonSicrSC = styled(ButtonSC)`
   background-color: #252644;
   color: #ffffff;
 `;
+
 export default function Clientes() {
   const refTable = useRef(null);
-  /* const [eventScroll, setEventScroll] = useState(false); */
-
   const [loading, setLoading] = useState(true);
-  const [nextPag, setNextPage] = useState(1);
-  const [allClientes, setAllClientes] = useState([]);
-  const [{ total, ativos, inativos }, setTotais] = useState({
+  const [nextPage, setNextPage] = useState(1);
+  const [limitPage] = useState(20);
+  const [{ clientes, total, ativos, inativos }, setClientes] = useState({
+    clientes: [],
     total: 0,
     ativos: 0,
     inativos: 0,
@@ -76,36 +76,46 @@ export default function Clientes() {
     return () =>
       refTable.current &&
       refTable.current.removeEventListener("scroll", handleScroll);
-  }, [allClientes]);
-
-  useEffect(() => {
-    getClientes();
-  }, [nextPag]);
+  }, [clientes]);
 
   function handleScroll() {
-    console.log("oi");
+    /* Altura atual da barra scroll na tbody(0% a 99%) 0 inicio  e 99 final. */
     let alturaScroll = parseInt(
       (100 * refTable.current.scrollTop) /
         (refTable.current.scrollHeight - refTable.current.clientHeight)
     );
 
-    /*   console.log(alturaScroll); */
-    if (alturaScroll < 80 || loading) {
+    if (
+      alturaScroll < 99 ||
+      loading ||
+      nextPage >= parseFloat(total / limitPage)
+    ) {
       return;
     }
 
-    setNextPage(nextPag + 1);
+    setNextPage(nextPage + 1);
   }
+
+  useEffect(() => {
+    getClientes();
+  }, [nextPage]);
 
   async function getClientes() {
     setLoading(true);
-    console.log("getApi; pag: " + nextPag);
-    const url = `${apiUrl}/clientes?_page=${nextPag}&_limit=${250}`;
+    const url = `${apiUrl}/clientes?_page=${nextPage}&_limit=${limitPage}`;
     await axios.get(url).then((res) => {
-      setAllClientes([...allClientes, ...res.data.clientes]);
+      console.log("getApi; pag: " + nextPage);
+      const data = res.data;
+      setClientes({
+        clientes: [...clientes, ...data.dados],
+        total: data.total,
+        ativos: data.ativos,
+        inativos: data.inativos,
+      });
       setLoading(false);
     });
   }
+
   return (
     <>
       <Titulo
@@ -132,15 +142,12 @@ export default function Clientes() {
         </ButtonSicrSC>
       </Menu>
 
-      {!!allClientes.length > 0 && (
+      {!!clientes.length > 0 && (
         <Tabela>
           <Corpo ref={refTable}>
-            {allClientes.map((item) => {
+            {clientes.map((item) => {
               return (
                 <tr key={item.codigo}>
-                  <TdDesc max_w={100} descricao="Código">
-                    {item.codigo}
-                  </TdDesc>
                   <TdPadr max_w={999} font_w={600}>
                     {item.nome}
                   </TdPadr>
@@ -208,7 +215,7 @@ export default function Clientes() {
           </Rodape>
         </Tabela>
       )}
-      {!allClientes.length > 0 && <h1>Vazio</h1>}
+      {!clientes.length > 0 && <h1>Vazio</h1>}
     </>
   );
 }

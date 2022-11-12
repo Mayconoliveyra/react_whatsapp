@@ -98,10 +98,8 @@ module.exports = (app) => {
     const get = async (req, res) => {
         const page = req.query._page;
         const limit = req.query._limit;
-        console.log("page: " + page);
-        console.log("limit: " + limit);
-
-        const clientes = await app.db.raw(
+        console.log(`page: ${page}; limit ${limit}`);
+        const dados = await app.db.raw(
             `SELECT * FROM cadastro_clientes 
             ${whereNullExcluido}
             ${orderBy("codigo", "ASC")}
@@ -128,7 +126,7 @@ module.exports = (app) => {
             .whereNull("excluido_em")
             .first();
 
-        res.json({ clientes: clientes[0], total, ativos, inativos });
+        res.json({ dados: dados[0], total, ativos, inativos });
     };
 
     const remove = async (req, res) => {

@@ -20,8 +20,9 @@ const TableSC = styled.table`
       background-color: #fdfdfd;
       box-shadow: 0 0px 5px rgb(0 0 0 / 30%);
       border-radius: 4px;
+      padding-left: 12px;
       td {
-        height: 53px;
+        height: 55px;
         width: 100%;
         display: flex;
         align-items: center;
@@ -35,14 +36,15 @@ const TableSC = styled.table`
 
     ::-webkit-scrollbar-track {
       background-color: transparent;
+      width: 5px;
     }
     ::-webkit-scrollbar {
-      width: 4px;
+      width: 5px;
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
       background: ${theme.colors.pretoCor};
-      border-radius: 5px;
+      border-radius: 99px;
     }
   }
 
