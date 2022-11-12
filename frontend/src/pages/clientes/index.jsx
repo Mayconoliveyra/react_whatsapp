@@ -15,12 +15,12 @@ import {
 import { theme } from "../../styles/theme";
 
 import {
-  BsPeople,
-  BsDownload,
-  BsVinyl,
-  BsSearch,
-  BsThreeDotsVertical,
-} from "react-icons/bs";
+  PersonCircle,
+  CloudDownload,
+  VinylFill,
+  Search,
+  ThreeDotsVertical,
+} from "react-bootstrap-icons";
 
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -61,7 +61,7 @@ export default function Clientes() {
   const refTable = useRef(null);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState(1);
-  const [limitPage] = useState(20);
+  const [limitPage] = useState(200);
   const [{ clientes, total, ativos, inativos }, setClientes] = useState({
     clientes: [],
     total: 0,
@@ -127,17 +127,17 @@ export default function Clientes() {
       <Menu title="Clientes">
         <InputSearcSC>
           <input type="text" placeholder="Pesquisar"></input>
-          <BsSearch />
+          <Search />
         </InputSearcSC>
         <ButtonSC type="button">
-          <BsPeople size={19} style={{ marginRight: "6px" }} /> Novo cliente
+          <PersonCircle size={19} style={{ marginRight: "6px" }} /> Novo cliente
         </ButtonSC>
         <ButtonSC type="button">
-          <BsDownload size={19} style={{ marginRight: "6px" }} />
+          <CloudDownload size={19} style={{ marginRight: "6px" }} />
           Importar contatos
         </ButtonSC>
         <ButtonSicrSC type="button">
-          <BsVinyl size={19} style={{ marginRight: "6px" }} />
+          <VinylFill size={19} style={{ marginRight: "6px" }} />
           Sicronizar contatos
         </ButtonSicrSC>
       </Menu>
@@ -182,7 +182,7 @@ export default function Clientes() {
                   )}
                   <TdPadr alinharX="center" max_w={20}>
                     <button>
-                      <BsThreeDotsVertical />
+                      <ThreeDotsVertical />
                     </button>
                   </TdPadr>
                 </tr>

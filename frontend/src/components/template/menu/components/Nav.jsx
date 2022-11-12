@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Link from "./Link";
 
 import {
-  BsLayoutWtf,
-  BsMegaphone,
-  BsPhone,
-  BsPeople,
-  BsDiagram3,
-  BsFolder,
-} from "react-icons/bs";
+  ColumnsGap,
+  Megaphone,
+  Phone,
+  People,
+  Diagram3,
+  Folder,
+} from "react-bootstrap-icons";
 
 const NavSC = styled.ul`
   display: flex;
@@ -48,12 +48,12 @@ const styleIcon = {
 };
 
 export default function Nav() {
-  const dashboard = <BsLayoutWtf style={styleIcon} />;
-  const campanhas = <BsMegaphone style={styleIcon} />;
-  const dispositivo = <BsPhone style={styleIcon} />;
-  const clientes = <BsPeople style={styleIcon} />;
-  const categorias = <BsDiagram3 style={styleIcon} />;
-  const modelos = <BsFolder style={styleIcon} />;
+  const dashboard = <ColumnsGap style={styleIcon} />;
+  const campanhas = <Megaphone style={styleIcon} />;
+  const dispositivo = <Phone style={styleIcon} />;
+  const clientes = <People style={styleIcon} />;
+  const categorias = <Diagram3 style={styleIcon} />;
+  const modelos = <Folder style={styleIcon} />;
 
   return (
     <NavSC>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BsHouse, BsChevronDown, BsPersonCircle } from "react-icons/bs";
+import { House, ChevronDown, PersonCircle } from "react-bootstrap-icons";
 
 const HeaderSC = styled.div`
   grid-area: header;
@@ -26,11 +26,11 @@ const UserDropSC = styled.div`
 export default function Header() {
   return (
     <HeaderSC>
-      <BsHouse size={27}></BsHouse>
+      <House size={27}></House>
       <UserDropSC>
-        <BsPersonCircle size={28} style={{ marginRight: "7px" }} />
+        <PersonCircle size={28} style={{ marginRight: "7px" }} />
         Mendes & Silva LTDA
-        <BsChevronDown style={{ marginLeft: "15px", marginRight: "4px" }} />
+        <ChevronDown style={{ marginLeft: "15px", marginRight: "4px" }} />
       </UserDropSC>
     </HeaderSC>
   );
