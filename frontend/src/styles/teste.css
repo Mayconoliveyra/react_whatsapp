@@ -1,0 +1,6 @@
+.teste {
+       background-color: #2a2b49;
+}
+.teste:last-child{
+       color: #dadada;
+}
