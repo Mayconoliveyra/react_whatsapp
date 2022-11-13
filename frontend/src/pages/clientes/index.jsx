@@ -1,5 +1,8 @@
 import apiUrl from "../../global";
 
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+
 import styled from "styled-components";
 import Menu from "../../components/tabela/Menu";
 import Titulo from "../../components/titulo";
@@ -22,8 +25,7 @@ import {
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+
 
 const InputSearcSC = styled.div`
   display: flex;
@@ -59,6 +61,7 @@ const ButtonSicrSC = styled(ButtonSC)`
 
 export default function Clientes() {
   const refTable = useRef(null);
+
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState(1);
   const [limitPage] = useState(200);
@@ -70,17 +73,16 @@ export default function Clientes() {
   });
 
   useEffect(() => {
-    refTable.current &&
+    if (refTable.current) {
       refTable.current.addEventListener("scroll", handleScroll);
 
-    return () =>
-      refTable.current &&
-      refTable.current.removeEventListener("scroll", handleScroll);
+      return () => refTable.current.removeEventListener("scroll", handleScroll);
+    }
   }, [clientes]);
 
   function handleScroll() {
     /* Altura atual da barra scroll na tbody(0% a 99%) 0 inicio  e 99 final. */
-    let alturaScroll = parseInt(
+    let alturaScroll = parseFloat(
       (100 * refTable.current.scrollTop) /
         (refTable.current.scrollHeight - refTable.current.clientHeight)
     );
@@ -122,7 +124,7 @@ export default function Clientes() {
         src="c_clientes.jpg"
         titulo="Cadastro de clientes"
         descricao="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
-      ></Titulo>
+      />
 
       <Menu title="Clientes">
         <InputSearcSC>
