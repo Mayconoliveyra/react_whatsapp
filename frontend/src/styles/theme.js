@@ -7,7 +7,7 @@ export const theme = {
     vermelhoCor: "#FF3071",
     verdeCor: "#01D694",
     amareloCor: "#FEC423",
-    pretoCor: "#0E0E0E",
+    black: "#0E0E0E",
   },
   font: {
     family: {

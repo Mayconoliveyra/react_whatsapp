@@ -1,12 +1,12 @@
+import { useEffect, useState } from "react";
 import apiUrl from "../../global";
-
-import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-import styled from "styled-components";
-import Menu from "../../components/tabela/Menu";
-import Titulo from "../../components/titulo";
+import { theme } from "../../styles/theme";
 
+import Titulo from "../../components/titulo";
+import Menu from "../../components/tabela/Menu";
+import { Button, InputSearc } from "../../components/button";
 import {
   Tabela,
   Corpo,
@@ -15,53 +15,15 @@ import {
   TdDesc,
 } from "../../components/tabela/Tabela";
 
-import { theme } from "../../styles/theme";
-
 import {
   PersonCircle,
   CloudDownload,
   VinylFill,
-  Search,
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 
-
-
-const InputSearcSC = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 11px 9px;
-  border-radius: 50px;
-  box-shadow: 0 0px 5px rgb(0 0 0 / 27%);
-  background-color: #ffffff;
-  input {
-    border: none;
-    outline: none;
-    border-radius: 50px;
-    padding-left: 7px;
-    padding-right: 7px;
-  }
-`;
-const ButtonSC = styled.button`
-  padding: 7px 11px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  border: solid 1px #282544;
-  font-weight: bold;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13, 5px;
-`;
-const ButtonSicrSC = styled(ButtonSC)`
-  background-color: #252644;
-  color: #ffffff;
-`;
-
 export default function Clientes() {
-  const refTable = useRef(null);
-
+  const [mode, setMode] = useState(null);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState(1);
   const [limitPage] = useState(200);
@@ -73,18 +35,20 @@ export default function Clientes() {
   });
 
   useEffect(() => {
-    if (refTable.current) {
-      refTable.current.addEventListener("scroll", handleScroll);
+    const refTable = document.getElementById("scrollBody");
+    if (refTable) {
+      refTable.addEventListener("scroll", handleScroll);
 
-      return () => refTable.current.removeEventListener("scroll", handleScroll);
+      return () => refTable.removeEventListener("scroll", handleScroll);
     }
   }, [clientes]);
 
   function handleScroll() {
+    const refTable = document.getElementById("scrollBody");
     /* Altura atual da barra scroll na tbody(0% a 99%) 0 inicio  e 99 final. */
     let alturaScroll = parseFloat(
-      (100 * refTable.current.scrollTop) /
-        (refTable.current.scrollHeight - refTable.current.clientHeight)
+      (100 * refTable.scrollTop) /
+        (refTable.scrollHeight - refTable.clientHeight)
     );
 
     if (
@@ -118,6 +82,9 @@ export default function Clientes() {
     });
   }
 
+  function adicionarCLiente(mode = null) {
+    setMode(mode);
+  }
   return (
     <>
       <Titulo
@@ -126,27 +93,29 @@ export default function Clientes() {
         descricao="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
       />
 
-      <Menu title="Clientes">
-        <InputSearcSC>
-          <input type="text" placeholder="Pesquisar"></input>
-          <Search />
-        </InputSearcSC>
-        <ButtonSC type="button">
-          <PersonCircle size={19} style={{ marginRight: "6px" }} /> Novo cliente
-        </ButtonSC>
-        <ButtonSC type="button">
-          <CloudDownload size={19} style={{ marginRight: "6px" }} />
-          Importar contatos
-        </ButtonSC>
-        <ButtonSicrSC type="button">
-          <VinylFill size={19} style={{ marginRight: "6px" }} />
-          Sicronizar contatos
-        </ButtonSicrSC>
-      </Menu>
+      {!mode && (
+        <Menu title="Clientes">
+          <InputSearc></InputSearc>
+          <Button onClick={() => adicionarCLiente("save")}>
+            <PersonCircle size={19} /> Novo cliente
+          </Button>
+          <Button>
+            <CloudDownload size={19} />
+            Importar contatos
+          </Button>
+          <Button
+            backgroundColor={theme.colors.black}
+            color={theme.colors.white}
+          >
+            <VinylFill size={19} />
+            Sicronizar contatos
+          </Button>
+        </Menu>
+      )}
 
       {!!clientes.length > 0 && (
         <Tabela>
-          <Corpo ref={refTable}>
+          <Corpo>
             {clientes.map((item) => {
               return (
                 <tr key={item.codigo}>
@@ -183,7 +152,7 @@ export default function Clientes() {
                     </TdPadr>
                   )}
                   <TdPadr alinharX="center" max_w={20}>
-                    <button>
+                    <button onClick={() => console.log("oi")}>
                       <ThreeDotsVertical />
                     </button>
                   </TdPadr>

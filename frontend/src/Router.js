@@ -3,6 +3,7 @@ import Dashboard from "./pages/dashboard";
 import Campanhas from "./pages/campanhas";
 import Dispositivos from "./pages/dispositivos";
 import Clientes from "./pages/clientes";
+import FormClientes from "./pages/clientes/form";
 
 export default function MainRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function MainRoutes() {
       <Route path="/campanhas" element={<Campanhas />} />
       <Route path="/dispositivos" element={<Dispositivos />} />
       <Route path="/clientes" element={<Clientes />} />
+      <Route path="/clientes/novo" element={<FormClientes />} />
     </Routes>
   );
 }

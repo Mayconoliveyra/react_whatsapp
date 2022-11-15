@@ -59,8 +59,8 @@ export default function Nav() {
     <NavSC>
       <Link to="/dashboard" name="Dashboard" icon={dashboard}></Link>
       <Link to="/campanhas" name="Campanhas" icon={campanhas}></Link>
-      <Link to="/dispositivos" name="Dispositivos" icon={dispositivo}></Link>
-      <Link to="/clientes" name="Clientes" icon={clientes}></Link>
+      <Link to="dispositivos" name="Dispositivos" icon={dispositivo}></Link>
+      <Link to="clientes" name="Clientes" icon={clientes}></Link>
       <Link to="/categorias" name="Categorias" icon={categorias}></Link>
       <Link to="/modelos" name="Modelos" icon={modelos}></Link>
     </NavSC>

@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
@@ -43,7 +42,7 @@ const TableSC = styled.table`
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${theme.colors.pretoCor};
+      background: ${theme.colors.black};
       border-radius: 99px;
     }
   }
@@ -87,7 +86,7 @@ const TdPadraoSC = styled.td`
   div {
     border-radius: 13px;
     height: 25px;
-    width: 100px;
+    width: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,6 +102,10 @@ const TdPadraoSC = styled.td`
     border: none;
     width: 100%;
     height: 100%;
+
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -127,9 +130,9 @@ export const Tabela = ({ children }) => {
   return <TableSC>{children}</TableSC>;
 };
 
-export const Corpo = forwardRef(({ children }, ref) => {
-  return <tbody ref={ref}>{children}</tbody>;
-});
+export const Corpo = ({ children }) => {
+  return <tbody id="scrollBody">{children}</tbody>;
+};
 
 export const Rodape = ({ children }) => {
   return (
