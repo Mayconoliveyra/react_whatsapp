@@ -1,6 +1,43 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
+const TmenuSC = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+
+  div:nth-child(1) {
+    display: flex;
+    align-items: flex-end;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  div:nth-child(2) {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+      padding: 7px 11px;
+      border-radius: 5px;
+      border: solid 1px #282544;
+      font-weight: bold;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13.5px;
+      &&:hover {
+        cursor: pointer;
+      }
+      svg {
+        margin-right: 6px;
+      }
+    }
+  }
+`;
+
 const TableSC = styled.table`
   display: flex;
   flex-direction: column;
@@ -76,7 +113,7 @@ const TableSC = styled.table`
   }
 `;
 
-const TdPadraoSC = styled.td`
+const TdDefaultSC = styled.td`
   max-width: ${({ max_w }) => `${max_w}px;`};
   justify-content: ${({ alinharX }) =>
     `${alinharX ? alinharX : "flex-start"};`};
@@ -109,7 +146,7 @@ const TdPadraoSC = styled.td`
   }
 `;
 
-const TdDescSC = styled.td`
+const TdDescriptionSC = styled.td`
   max-width: ${({ max_w }) => `${max_w}px;`};
   justify-content: ${({ alinharX }) =>
     `${alinharX ? alinharX : "flex-start"};`};
@@ -126,15 +163,24 @@ const TdDescSC = styled.td`
   }
 `;
 
-export const Tabela = ({ children }) => {
+export const Tmenu = ({ title, children }) => {
+  return (
+    <TmenuSC>
+      <div>{title}</div>
+      <div>{children}</div>
+    </TmenuSC>
+  );
+};
+
+export const Table = ({ children }) => {
   return <TableSC>{children}</TableSC>;
 };
 
-export const Corpo = ({ children }) => {
+export const TBody = ({ children }) => {
   return <tbody id="scrollBody">{children}</tbody>;
 };
 
-export const Rodape = ({ children }) => {
+export const Tfoot = ({ children }) => {
   return (
     <tfoot>
       <tr>{children}</tr>
@@ -142,7 +188,7 @@ export const Rodape = ({ children }) => {
   );
 };
 
-export const TdPadr = ({
+export const TdDefault = ({
   max_w,
   font_w,
   color,
@@ -152,7 +198,7 @@ export const TdPadr = ({
   children,
 }) => {
   return (
-    <TdPadraoSC
+    <TdDefaultSC
       max_w={max_w}
       font_w={font_w}
       color={color}
@@ -161,17 +207,23 @@ export const TdPadr = ({
       corFont={corFont}
     >
       {children}
-    </TdPadraoSC>
+    </TdDefaultSC>
   );
 };
 
-export const TdDesc = ({ max_w, font_w, alinharX, descricao, children }) => {
+export const TdDescription = ({
+  max_w,
+  font_w,
+  alinharX,
+  descricao,
+  children,
+}) => {
   return (
-    <TdDescSC max_w={max_w} font_w={font_w} alinharX={alinharX}>
+    <TdDescriptionSC max_w={max_w} font_w={font_w} alinharX={alinharX}>
       <div>
         <span>{descricao}</span>
         {children}
       </div>
-    </TdDescSC>
+    </TdDescriptionSC>
   );
 };

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TituloSC = styled.div`
+const TitleSC = styled.div`
   margin-top: 17px;
   display: flex;
   align-items: center;
@@ -30,16 +30,20 @@ const TituloSC = styled.div`
   }
 `;
 
-export default function Titulo({ src = "c_clientes.jpg", titulo, descricao }) {
+export default function Titulo({
+  src = "c_clientes.jpg",
+  title = "Sem Título",
+  description = "Sem Descrição",
+}) {
   return (
-    <TituloSC>
+    <TitleSC>
       <div>
         <img src={`/images/${src}`} alt="Soft Connect" />
       </div>
       <div>
-        <h1>{titulo}</h1>
-        <p>{descricao}</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
       </div>
-    </TituloSC>
+    </TitleSC>
   );
 }

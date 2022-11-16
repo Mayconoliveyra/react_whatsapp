@@ -4,16 +4,17 @@ import axios from "axios";
 
 import { theme } from "../../styles/theme";
 
-import Titulo from "../../components/titulo";
-import Menu from "../../components/tabela/Menu";
+import PageTitle from "../../components/pageTitle";
 import { Button, InputSearc } from "../../components/button";
+import LinkRouter from "../../components/link";
 import {
-  Tabela,
-  Corpo,
-  Rodape,
-  TdPadr,
-  TdDesc,
-} from "../../components/tabela/Tabela";
+  Tmenu,
+  Table,
+  TBody,
+  TdDefault,
+  TdDescription,
+  Tfoot,
+} from "../../components/table";
 
 import {
   PersonCircle,
@@ -23,7 +24,6 @@ import {
 } from "react-bootstrap-icons";
 
 export default function Clientes() {
-  const [mode, setMode] = useState(null);
   const [loading, setLoading] = useState(true);
   const [nextPage, setNextPage] = useState(1);
   const [limitPage] = useState(200);
@@ -81,110 +81,101 @@ export default function Clientes() {
       setLoading(false);
     });
   }
-
-  function adicionarCLiente(mode = null) {
-    setMode(mode);
-  }
   return (
     <>
-      <Titulo
+      <PageTitle
         src="c_clientes.jpg"
-        titulo="Cadastro de clientes"
-        descricao="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
+        title="Cadastro de clientes"
+        description="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
       />
 
-      {!mode && (
-        <Menu title="Clientes">
-          <InputSearc></InputSearc>
-          <Button onClick={() => adicionarCLiente("save")}>
-            <PersonCircle size={19} /> Novo cliente
-          </Button>
-          <Button>
-            <CloudDownload size={19} />
-            Importar contatos
-          </Button>
-          <Button
-            backgroundColor={theme.colors.black}
-            color={theme.colors.white}
-          >
-            <VinylFill size={19} />
-            Sicronizar contatos
-          </Button>
-        </Menu>
-      )}
+      <Tmenu title="Clientes">
+        <InputSearc></InputSearc>
+        <LinkRouter  to="/clientes/novo">
+          <PersonCircle size={19} /> Novo cliente
+        </LinkRouter>
+        <Button>
+          <CloudDownload size={19} />
+          Importar contatos
+        </Button>
+        <Button backgroundColor={theme.colors.black} color={theme.colors.white}>
+          <VinylFill size={19} />
+          Sicronizar contatos
+        </Button>
+      </Tmenu>
 
       {!!clientes.length > 0 && (
-        <Tabela>
-          <Corpo>
+        <Table>
+          <TBody>
             {clientes.map((item) => {
               return (
                 <tr key={item.codigo}>
-                  <TdPadr max_w={999} font_w={600}>
+                  <TdDefault max_w={999} font_w={600}>
                     {item.nome}
-                  </TdPadr>
-                  <TdDesc max_w={150} descricao="Numero">
+                  </TdDefault>
+                  <TdDescription max_w={150} descricao="Numero">
                     {item.nmr_whatsapp}
-                  </TdDesc>
-                  <TdDesc max_w={150} descricao="Categoria">
+                  </TdDescription>
+                  <TdDescription max_w={150} descricao="Categoria">
                     {item.nmr_whatsapp}
-                  </TdDesc>
-                  <TdDesc max_w={150} descricao="Dispositivo">
+                  </TdDescription>
+                  <TdDescription max_w={150} descricao="Dispositivo">
                     {item.nmr_whatsapp}
-                  </TdDesc>
+                  </TdDescription>
                   {!item.desativado && (
-                    <TdPadr
+                    <TdDefault
                       alinharX="center"
                       max_w={120}
                       corFont="#4EE1B2"
                       fundoCor="#b3f7e2"
                     >
                       <div>Ativo</div>
-                    </TdPadr>
+                    </TdDefault>
                   )}
                   {!!item.desativado && (
-                    <TdPadr
+                    <TdDefault
                       alinharX="center"
                       max_w={120}
                       corFont="#FD729A"
                       fundoCor="#FFC1D4"
                     >
                       <div>Inativo</div>
-                    </TdPadr>
+                    </TdDefault>
                   )}
-                  <TdPadr alinharX="center" max_w={20}>
+                  <TdDefault alinharX="center" max_w={20}>
                     <button onClick={() => console.log("oi")}>
                       <ThreeDotsVertical />
                     </button>
-                  </TdPadr>
+                  </TdDefault>
                 </tr>
               );
             })}
-          </Corpo>
+          </TBody>
 
-          <Rodape>
-            <TdPadr
+          <Tfoot>
+            <TdDefault
               max_w={200}
               alinharX="space-between"
               color={theme.colors.primaryColor}
             >
               <b>Quantidade:</b> {total}
-            </TdPadr>
-            <TdPadr
+            </TdDefault>
+            <TdDefault
               max_w={200}
               alinharX="space-between"
               color={theme.colors.verdeCor}
             >
               <b>Ativos:</b> {ativos}
-            </TdPadr>
-            <TdPadr
+            </TdDefault>
+            <TdDefault
               max_w={200}
               alinharX="space-between"
               color={theme.colors.vermelhoCor}
             >
               <b>Inativos:</b> {inativos}
-            </TdPadr>
-          </Rodape>
-        </Tabela>
+            </TdDefault>
+          </Tfoot>
+        </Table>
       )}
       {!clientes.length > 0 && <h1>Vazio</h1>}
     </>
