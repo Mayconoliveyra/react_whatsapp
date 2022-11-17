@@ -137,7 +137,7 @@ export default function Clientes() {
                     <TdDefault
                       css={{
                         maxWidth: 120,
-                        color: "#4EE1B2",
+                        color: theme.colors.greeColor,
                         backgroundColor: "#b3f7e2",
                         justifyContent: "center",
                         fontWeight: "bold",
@@ -150,7 +150,7 @@ export default function Clientes() {
                     <TdDefault
                       css={{
                         maxWidth: 120,
-                        color: "#FD729A",
+                        color: theme.colors.redColor,
                         backgroundColor: "#FFC1D4",
                         justifyContent: "center",
                         fontWeight: "bold",
@@ -171,23 +171,31 @@ export default function Clientes() {
 
           <Tfoot>
             <TdDefault
-              max_w={200}
-              alinharX="space-between"
-              color={theme.colors.primaryColor}
+              css={{
+                maxWidth: 200,
+                justifyContent: "space-between",
+                fontWeight: "bold",
+              }}
             >
               <b>Quantidade:</b> {total}
             </TdDefault>
             <TdDefault
-              max_w={200}
-              alinharX="space-between"
-              color={theme.colors.greeColor}
+              css={{
+                maxWidth: 200,
+                color: theme.colors.greeColor,
+                justifyContent: "space-between",
+                fontWeight: "bold",
+              }}
             >
               <b>Ativos:</b> {ativos}
             </TdDefault>
             <TdDefault
-              max_w={200}
-              alinharX="space-between"
-              color={theme.colors.redColor}
+              css={{
+                maxWidth: 200,
+                color: theme.colors.redColor,
+                justifyContent: "space-between",
+                fontWeight: "bold",
+              }}
             >
               <b>Inativos:</b> {inativos}
             </TdDefault>

@@ -93,6 +93,7 @@ const TableSC = styled.table`
       border-bottom-right-radius: 4px;
       border-bottom-left-radius: 4px;
       padding: 9px 30px;
+      font-size: ${theme.font.sizes.small};
       td {
         height: 37px;
         width: 100%;
@@ -127,7 +128,7 @@ const TdDefaultSC = styled.td`
   div {
     border-radius: 13px;
     height: 25px;
-    width: 110px;
+    min-width: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
