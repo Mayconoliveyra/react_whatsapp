@@ -5,7 +5,7 @@ import axios from "axios";
 import { theme } from "../../styles/theme";
 
 import PageTitle from "../../components/pageTitle";
-import { Button, InputSearc } from "../../components/button";
+import { Button, InputSearch } from "../../components/button";
 import LinkRouter from "../../components/link";
 import {
   Tmenu,
@@ -90,16 +90,21 @@ export default function Clientes() {
       />
 
       <Tmenu title="Clientes">
-        <InputSearc></InputSearc>
-        <LinkRouter  to="/clientes/novo">
-          <PersonCircle size={19} /> Novo cliente
+        <InputSearch></InputSearch>
+        <LinkRouter to="/clientes/novo">
+          <PersonCircle /> Novo cliente
         </LinkRouter>
         <Button>
-          <CloudDownload size={19} />
+          <CloudDownload />
           Importar contatos
         </Button>
-        <Button backgroundColor={theme.colors.black} color={theme.colors.white}>
-          <VinylFill size={19} />
+        <Button
+          css={{
+            backgroundColor: theme.colors.secondaryColor,
+            color: theme.colors.primaryColor,
+          }}
+        >
+          <VinylFill />
           Sicronizar contatos
         </Button>
       </Tmenu>
@@ -163,14 +168,14 @@ export default function Clientes() {
             <TdDefault
               max_w={200}
               alinharX="space-between"
-              color={theme.colors.verdeCor}
+              color={theme.colors.greeColor}
             >
               <b>Ativos:</b> {ativos}
             </TdDefault>
             <TdDefault
               max_w={200}
               alinharX="space-between"
-              color={theme.colors.vermelhoCor}
+              color={theme.colors.redColor}
             >
               <b>Inativos:</b> {inativos}
             </TdDefault>

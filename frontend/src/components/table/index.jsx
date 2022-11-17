@@ -10,29 +10,29 @@ const TmenuSC = styled.div`
   div:nth-child(1) {
     display: flex;
     align-items: flex-end;
-    font-size: 16px;
     font-weight: bold;
+    font-size: ${theme.font.sizes.medium};
   }
   div:nth-child(2) {
     flex: 1;
     display: flex;
     justify-content: flex-end;
-
-    a {
-      padding: 7px 11px;
-      border-radius: 5px;
-      border: solid 1px #282544;
+    font-size: ${theme.font.sizes.small};
+    a,
+    button {
+      color: ${theme.colors.secondaryColor};
+      border: solid 1px ${theme.colors.secondaryColor};
+      background-color: ${theme.colors.primaryColor};
       font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 4px;
       margin-left: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13.5px;
-      &&:hover {
-        cursor: pointer;
-      }
       svg {
-        margin-right: 6px;
+        margin-right: 8px;
+        font-size: 19px;
       }
     }
   }
@@ -79,7 +79,7 @@ const TableSC = styled.table`
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: ${theme.colors.black};
+      background: ${theme.colors.secondaryColor};
       border-radius: 99px;
     }
   }
@@ -128,7 +128,7 @@ const TdDefaultSC = styled.td`
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 1.3rem;
+    /* font-size: 1.3rem; */
 
     background-color: ${({ fundoCor }) => fundoCor};
     color: ${({ corFont }) => `${corFont}`};
@@ -156,7 +156,7 @@ const TdDescriptionSC = styled.td`
     flex-direction: column;
     span {
       color: #c1c1c1;
-      font-size: 1.2rem;
+      /* font-size: 1.2rem; */
       margin-bottom: 6px;
       font-weight: 600;
     }

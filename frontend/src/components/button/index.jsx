@@ -3,30 +3,19 @@ import { theme } from "../../styles/theme";
 import { Search } from "react-bootstrap-icons";
 
 const ButtonSC = styled.button`
-  background-color: ${({ backgroundColor }) =>
-    backgroundColor ? backgroundColor : theme.colors.white};
-  color: ${({ color }) => (color ? color : theme.colors.black)};
-  padding: 7px 11px;
-  border-radius: 5px;
-  border: solid 1px #282544;
-  font-weight: bold;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13.5px;
-  &&:hover {
-    cursor: pointer;
-  }
-  svg {
-    margin-right: 6px;
-  }
+  font-size: ${({ css }) => css.fontSize} !important;
+  font-weight: ${({ css }) => css.fontWeight} !important;
+  color: ${({ css }) => css.color} !important;
+  background-color: ${({ css }) => css.backgroundColor} !important;
+  padding: ${({ css }) => css.padding} !important;
+  margin: ${({ css }) => css.margin} !important;
+  border-radius: ${({ css }) => css.borderRadius} !important;
 `;
 
-const InputSearcSC = styled.div`
+const InputSearchSC = styled.div`
   display: flex;
-  align-items: center;
-  padding: 11px 9px;
+  align-items: center !important;
+
   border-radius: 50px;
   box-shadow: 0 0px 5px rgb(0 0 0 / 27%);
   background-color: #ffffff;
@@ -34,24 +23,39 @@ const InputSearcSC = styled.div`
     border: none;
     outline: none;
     border-radius: 50px;
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-left: 15px;
+    padding-right: 5px;
+    font-size: ${theme.font.sizes.xsmall};
+    min-width: 250px;
+  }
+  svg {
+    margin-right: 10px;
+    font-size: 1rem;
   }
 `;
 
-export const Button = ({ ...props }) => {
+export const Button = ({ children, css = {} }) => {
+  const cssDefault = {
+    fontSize: css.fontSize ? css.fontSize : "",
+    color: css.color ? css.color : "",
+    fontWeight: css.fontWeight ? css.fontWeight : "",
+    backgroundColor: css.backgroundColor ? css.backgroundColor : "",
+    padding: css.padding ? css.padding : "",
+    margin: css.margin ? css.margin : "",
+    borderRadius: css.borderRadius ? css.borderRadius : "",
+  };
   return (
-    <ButtonSC {...props} type="button">
-      {props.children}
+    <ButtonSC css={cssDefault} type="button">
+      {children}
     </ButtonSC>
   );
 };
 
-export const InputSearc = () => {
+export const InputSearch = () => {
   return (
-    <InputSearcSC type="button">
+    <InputSearchSC>
       <input type="text" placeholder="Pesquisar"></input>
       <Search />
-    </InputSearcSC>
+    </InputSearchSC>
   );
 };

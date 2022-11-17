@@ -7,21 +7,23 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   html {
-    font-size: 62.5%;
+    font-size: 1em;
     scroll-behavior: smooth;
   }
   body {
-    font-size: 1.4rem;
+    font-size: ${({ theme }) => theme.font.sizes.xsmall};
     font-family: ${({ theme }) => theme.font.family.default};
-    min-height: 100vh;
+    background-color: #f5f5f5; /* cor padrão */
+    color:  #252644; /* cor padrão */
+    letter-spacing: 0.025em;
+    height: 100vh;
     display:flex;
-    background-color: #f5f5f5;
   }
   #root {
     flex:1;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: ${({ theme }) => theme.font.family.secondary};
+    font-family: ${({ theme }) => theme.font.family.default};
     margin: ${({ theme }) => theme.spacings.large} 0;
   }
   p {
@@ -34,8 +36,15 @@ export const GlobalStyles = createGlobalStyle`
   li{
     list-style-type: none;
   }
-  a {
-    color: ${({ theme }) => theme.colors.secondaryColor};
+  a,button {
+    text-decoration:none;
+    color:  #252644; /* cor padrão */
+    &:hover{
+      cursor: pointer;
+      text-decoration:none;
+      color:  #252644; /* cor padrão */
+      opacity: 85%;
+    }
   }
   .table {
     width: 100%;

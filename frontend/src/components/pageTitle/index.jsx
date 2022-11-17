@@ -11,13 +11,13 @@ const TitleSC = styled.div`
   box-shadow: 0 0px 5px rgb(0 0 0 / 27%);
   height: 115px;
   h1 {
-    font-size: 19px;
+    /* font-size: 1.5em; */
     margin: 0px;
     padding: 0px;
     padding-bottom: 10px;
   }
   p {
-    font-size: 15px;
+    /* font-size: 15px; */
     margin: 0px;
     padding: 0px;
   }
@@ -30,7 +30,7 @@ const TitleSC = styled.div`
   }
 `;
 
-export default function Titulo({
+export default function PageTitle({
   src = "c_clientes.jpg",
   title = "Sem Título",
   description = "Sem Descrição",
