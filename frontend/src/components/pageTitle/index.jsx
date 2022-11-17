@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 const TitleSC = styled.div`
   margin-top: 17px;
@@ -11,13 +12,14 @@ const TitleSC = styled.div`
   box-shadow: 0 0px 5px rgb(0 0 0 / 27%);
   height: 115px;
   h1 {
-    /* font-size: 1.5em; */
+    font-size: ${theme.font.sizes.large};
+    font-weight: bold;
     margin: 0px;
     padding: 0px;
     padding-bottom: 10px;
   }
   p {
-    /* font-size: 15px; */
+    font-size: ${theme.font.sizes.small};
     margin: 0px;
     padding: 0px;
   }

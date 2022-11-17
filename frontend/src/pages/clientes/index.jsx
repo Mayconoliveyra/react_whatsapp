@@ -81,6 +81,11 @@ export default function Clientes() {
       setLoading(false);
     });
   }
+
+  const cssTdDefault = {
+    maxWidth: 999,
+    fontWeight: "bold",
+  };
   return (
     <>
       <PageTitle
@@ -115,39 +120,46 @@ export default function Clientes() {
             {clientes.map((item) => {
               return (
                 <tr key={item.codigo}>
-                  <TdDefault max_w={999} font_w={600}>
-                    {item.nome}
-                  </TdDefault>
-                  <TdDescription max_w={150} descricao="Numero">
+                  <TdDefault css={cssTdDefault}>{item.nome}</TdDefault>
+                  <TdDescription css={{ maxWidth: 150 }} descricao="Numero">
                     {item.nmr_whatsapp}
                   </TdDescription>
-                  <TdDescription max_w={150} descricao="Categoria">
+                  <TdDescription css={{ maxWidth: 150 }} descricao="Categoria">
                     {item.nmr_whatsapp}
                   </TdDescription>
-                  <TdDescription max_w={150} descricao="Dispositivo">
+                  <TdDescription
+                    css={{ maxWidth: 150 }}
+                    descricao="Dispositivo"
+                  >
                     {item.nmr_whatsapp}
                   </TdDescription>
                   {!item.desativado && (
                     <TdDefault
-                      alinharX="center"
-                      max_w={120}
-                      corFont="#4EE1B2"
-                      fundoCor="#b3f7e2"
+                      css={{
+                        maxWidth: 120,
+                        color: "#4EE1B2",
+                        backgroundColor: "#b3f7e2",
+                        justifyContent: "center",
+                        fontWeight: "bold",
+                      }}
                     >
                       <div>Ativo</div>
                     </TdDefault>
                   )}
                   {!!item.desativado && (
                     <TdDefault
-                      alinharX="center"
-                      max_w={120}
-                      corFont="#FD729A"
-                      fundoCor="#FFC1D4"
+                      css={{
+                        maxWidth: 120,
+                        color: "#FD729A",
+                        backgroundColor: "#FFC1D4",
+                        justifyContent: "center",
+                        fontWeight: "bold",
+                      }}
                     >
                       <div>Inativo</div>
                     </TdDefault>
                   )}
-                  <TdDefault alinharX="center" max_w={20}>
+                  <TdDefault css={{ maxWidth: 20, justifyContent: "center" }}>
                     <button onClick={() => console.log("oi")}>
                       <ThreeDotsVertical />
                     </button>

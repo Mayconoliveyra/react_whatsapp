@@ -114,11 +114,15 @@ const TableSC = styled.table`
 `;
 
 const TdDefaultSC = styled.td`
-  max-width: ${({ max_w }) => `${max_w}px;`};
-  justify-content: ${({ alinharX }) =>
-    `${alinharX ? alinharX : "flex-start"};`};
-  font-weight: ${({ font_w }) => `${font_w ? font_w : "normal"};`};
-  color: ${({ color }) => `${color}`};
+  font-size: ${({ css }) => css.fontSize} !important;
+  font-weight: ${({ css }) => css.fontWeight} !important;
+  color: ${({ css }) => css.color} !important;
+
+  padding: ${({ css }) => css.padding} !important;
+  margin: ${({ css }) => css.margin} !important;
+  border-radius: ${({ css }) => css.borderRadius} !important;
+  max-width: ${({ css }) => css.maxWidth}px !important;
+  justify-content: ${({ css }) => css.justifyContent} !important;
 
   div {
     border-radius: 13px;
@@ -127,11 +131,7 @@ const TdDefaultSC = styled.td`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    /* font-size: 1.3rem; */
-
-    background-color: ${({ fundoCor }) => fundoCor};
-    color: ${({ corFont }) => `${corFont}`};
+    background-color: ${({ css }) => css.backgroundColor} !important;
   }
 
   button {
@@ -147,18 +147,23 @@ const TdDefaultSC = styled.td`
 `;
 
 const TdDescriptionSC = styled.td`
-  max-width: ${({ max_w }) => `${max_w}px;`};
-  justify-content: ${({ alinharX }) =>
-    `${alinharX ? alinharX : "flex-start"};`};
-  font-weight: ${({ font_w }) => `${font_w ? font_w : "normal"};`};
+  font-size: ${({ css }) => css.fontSize} !important;
+  font-weight: ${({ css }) => css.fontWeight} !important;
+  color: ${({ css }) => css.color} !important;
+
+  padding: ${({ css }) => css.padding} !important;
+  margin: ${({ css }) => css.margin} !important;
+  border-radius: ${({ css }) => css.borderRadius} !important;
+  max-width: ${({ css }) => css.maxWidth}px !important;
+  justify-content: ${({ css }) => css.justifyContent} !important;
   div {
     display: flex;
     flex-direction: column;
     span {
       color: #c1c1c1;
-      /* font-size: 1.2rem; */
+      font-size: 0.7rem;
       margin-bottom: 6px;
-      font-weight: 600;
+      font-weight: bold;
     }
   }
 `;
@@ -188,38 +193,35 @@ export const Tfoot = ({ children }) => {
   );
 };
 
-export const TdDefault = ({
-  max_w,
-  font_w,
-  color,
-  alinharX,
-  fundoCor,
-  corFont,
-  children,
-}) => {
-  return (
-    <TdDefaultSC
-      max_w={max_w}
-      font_w={font_w}
-      color={color}
-      alinharX={alinharX}
-      fundoCor={fundoCor}
-      corFont={corFont}
-    >
-      {children}
-    </TdDefaultSC>
-  );
+export const TdDefault = ({ children, css = {} }) => {
+  const cssDefault = {
+    fontSize: css.fontSize ? css.fontSize : "",
+    color: css.color ? css.color : "",
+    fontWeight: css.fontWeight ? css.fontWeight : "",
+    backgroundColor: css.backgroundColor ? css.backgroundColor : "",
+    padding: css.padding ? css.padding : "",
+    margin: css.margin ? css.margin : "",
+    borderRadius: css.borderRadius ? css.borderRadius : "",
+    maxWidth: css.maxWidth ? css.maxWidth : "",
+    justifyContent: css.justifyContent ? css.justifyContent : "",
+  };
+  return <TdDefaultSC css={cssDefault}>{children}</TdDefaultSC>;
 };
 
-export const TdDescription = ({
-  max_w,
-  font_w,
-  alinharX,
-  descricao,
-  children,
-}) => {
+export const TdDescription = ({ descricao, children, css = {} }) => {
+  const cssDefault = {
+    fontSize: css.fontSize ? css.fontSize : "",
+    color: css.color ? css.color : "",
+    fontWeight: css.fontWeight ? css.fontWeight : "",
+    backgroundColor: css.backgroundColor ? css.backgroundColor : "",
+    padding: css.padding ? css.padding : "",
+    margin: css.margin ? css.margin : "",
+    borderRadius: css.borderRadius ? css.borderRadius : "",
+    maxWidth: css.maxWidth ? css.maxWidth : "",
+    justifyContent: css.justifyContent ? css.justifyContent : "",
+  };
   return (
-    <TdDescriptionSC max_w={max_w} font_w={font_w} alinharX={alinharX}>
+    <TdDescriptionSC css={cssDefault}>
       <div>
         <span>{descricao}</span>
         {children}
