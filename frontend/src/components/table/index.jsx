@@ -10,7 +10,7 @@ const TmenuSC = styled.div`
   div:nth-child(1) {
     display: flex;
     align-items: flex-end;
-    font-weight: bold;
+    font-family: ${theme.font.family.medium};
     font-size: ${theme.font.sizes.medium};
   }
   div:nth-child(2) {
@@ -23,7 +23,7 @@ const TmenuSC = styled.div`
       color: ${theme.colors.secondaryColor};
       border: solid 1px ${theme.colors.secondaryColor};
       background-color: ${theme.colors.primaryColor};
-      font-weight: bold;
+      font-family: ${theme.font.family.medium};
       padding: 6px 12px;
       border-radius: 4px;
       margin-left: 10px;
@@ -94,7 +94,7 @@ const TableSC = styled.table`
       border-bottom-left-radius: 4px;
       padding: 9px 30px;
       font-size: ${theme.font.sizes.small};
-      font-family: ${theme.font.family.bold};
+      font-family: ${theme.font.family.medium};
       td {
         height: 37px;
         width: 100%;

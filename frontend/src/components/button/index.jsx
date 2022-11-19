@@ -4,12 +4,14 @@ import { Search } from "react-bootstrap-icons";
 
 const ButtonSC = styled.button`
   font-size: ${({ css }) => css.fontSize} !important;
-  font-weight: ${({ css }) => css.fontWeight} !important;
+  font-family: ${({ css }) =>
+    css.fontWeight ? theme.font.family.medium : ""} !important;
   color: ${({ css }) => css.color} !important;
   background-color: ${({ css }) => css.backgroundColor} !important;
   padding: ${({ css }) => css.padding} !important;
   margin: ${({ css }) => css.margin} !important;
   border-radius: ${({ css }) => css.borderRadius} !important;
+  background-color: red;
 `;
 
 const InputSearchSC = styled.div`

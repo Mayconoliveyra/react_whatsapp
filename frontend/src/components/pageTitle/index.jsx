@@ -13,7 +13,7 @@ const TitleSC = styled.div`
   height: 115px;
   h1 {
     font-size: ${theme.font.sizes.large};
-    font-weight: bold;
+    font-family: ${theme.font.family.bold};
     margin: 0px;
     padding: 0px;
     padding-bottom: 10px;

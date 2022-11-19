@@ -176,7 +176,6 @@ export default function Clientes() {
               css={{
                 maxWidth: 200,
                 justifyContent: "space-between",
-                fontWeight: "bold",
               }}
             >
               <b>Quantidade:</b> {total}
@@ -186,7 +185,6 @@ export default function Clientes() {
                 maxWidth: 200,
                 color: theme.colors.greeColor,
                 justifyContent: "space-between",
-                fontWeight: "bold",
               }}
             >
               <b>Ativos:</b> {ativos}
@@ -196,7 +194,6 @@ export default function Clientes() {
                 maxWidth: 200,
                 color: theme.colors.redColor,
                 justifyContent: "space-between",
-                fontWeight: "bold",
               }}
             >
               <b>Inativos:</b> {inativos}

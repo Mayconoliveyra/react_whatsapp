@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 const LinkSC = styled(Link)`
   font-size: ${({ css }) => css.fontSize} !important;
-  font-weight: ${({ css }) => css.fontWeight} !important;
+  font-family: ${({ css }) =>
+    css.fontWeight ? theme.font.family.medium : ""} !important;
   color: ${({ css }) => css.color} !important;
   background-color: ${({ css }) => css.backgroundColor} !important;
   padding: ${({ css }) => css.padding} !important;
