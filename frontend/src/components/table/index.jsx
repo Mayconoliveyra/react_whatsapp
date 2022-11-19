@@ -94,6 +94,7 @@ const TableSC = styled.table`
       border-bottom-left-radius: 4px;
       padding: 9px 30px;
       font-size: ${theme.font.sizes.small};
+      font-family: ${theme.font.family.bold};
       td {
         height: 37px;
         width: 100%;
@@ -116,7 +117,8 @@ const TableSC = styled.table`
 
 const TdDefaultSC = styled.td`
   font-size: ${({ css }) => css.fontSize} !important;
-  font-weight: ${({ css }) => css.fontWeight} !important;
+  font-family: ${({ css }) =>
+    css.fontWeight ? theme.font.family.bold : ""} !important;
   color: ${({ css }) => css.color} !important;
 
   padding: ${({ css }) => css.padding} !important;
@@ -149,7 +151,8 @@ const TdDefaultSC = styled.td`
 
 const TdDescriptionSC = styled.td`
   font-size: ${({ css }) => css.fontSize} !important;
-  font-weight: ${({ css }) => css.fontWeight} !important;
+  font-family: ${({ css }) =>
+    css.fontWeight ? theme.font.family.bold : ""} !important;
   color: ${({ css }) => css.color} !important;
 
   padding: ${({ css }) => css.padding} !important;
@@ -164,7 +167,7 @@ const TdDescriptionSC = styled.td`
       color: #c1c1c1;
       font-size: 0.7rem;
       margin-bottom: 6px;
-      font-weight: bold;
+      font-family: ${theme.font.family.bold};
     }
   }
 `;

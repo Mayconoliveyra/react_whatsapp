@@ -45,8 +45,8 @@ const NavSC = styled.ul`
     a {
       color: ${theme.colors.primaryColor};
       font-size: ${theme.font.sizes.small};
-      font-weight: bold;
-      letter-spacing: 0.06em;
+      font-family: ${theme.font.family.bold};
+      letter-spacing: 0.07em;
       height: 100%;
       width: 100%;
       display: flex;

@@ -135,6 +135,7 @@ export default function Clientes() {
                   </TdDescription>
                   {!item.desativado && (
                     <TdDefault
+                      dataStatus
                       css={{
                         maxWidth: 120,
                         color: theme.colors.greeColor,
@@ -148,6 +149,7 @@ export default function Clientes() {
                   )}
                   {!!item.desativado && (
                     <TdDefault
+                      dataStatus
                       css={{
                         maxWidth: 120,
                         color: theme.colors.redColor,

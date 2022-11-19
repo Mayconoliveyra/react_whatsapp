@@ -9,8 +9,9 @@ export const theme = {
   },
   font: {
     family: {
-      default: "'Roboto','Open Sans', sans-serif",
-      secondary: "'Montserrat', sans-serif",
+      regular: "'roboto-regular','Open Sans', sans-serif",
+      medium: "'roboto-medium','Open Sans', sans-serif",
+      bold: "'roboto-bold','Open Sans', sans-serif",
     },
     sizes: {
       xsmall: "0.8rem",

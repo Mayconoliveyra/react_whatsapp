@@ -1,6 +1,19 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+@font-face {
+    font-family: 'roboto-regular';
+    src: url('/font/Roboto-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'roboto-medium';
+    src: url('/font/Roboto-Medium.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'roboto-bold';
+    src: url('/font/Roboto-Bold.ttf') format('truetype');
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -10,9 +23,11 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 1em;
     scroll-behavior: smooth;
   }
+
   body {
+   
     font-size: ${({ theme }) => theme.font.sizes.xsmall};
-    font-family: ${({ theme }) => theme.font.family.default};
+    font-family: ${({ theme }) => theme.font.family.regular};
     background-color: #f5f5f5; /* cor padrão */
     color:  #252644; /* cor padrão */
     letter-spacing: 0.025em;
