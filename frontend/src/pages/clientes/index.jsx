@@ -5,7 +5,7 @@ import axios from "axios";
 import { theme } from "../../styles/theme";
 
 import PageTitle from "../../components/pageTitle";
-import { Button, InputSearch } from "../../components/button";
+import { ButtonC, InputSearch } from "../../components/button";
 import LinkRouter from "../../components/link";
 import {
   Tmenu,
@@ -96,14 +96,14 @@ export default function Clientes() {
 
       <Tmenu title="Clientes">
         <InputSearch></InputSearch>
-        <LinkRouter to="/clientes/novo">
+        <LinkRouter to="novo">
           <PersonCircle /> Novo cliente
         </LinkRouter>
-        <Button>
+        <ButtonC>
           <CloudDownload />
           Importar contatos
-        </Button>
-        <Button
+        </ButtonC>
+        <ButtonC
           css={{
             backgroundColor: theme.colors.secondaryColor,
             color: theme.colors.primaryColor,
@@ -111,7 +111,7 @@ export default function Clientes() {
         >
           <VinylFill />
           Sicronizar contatos
-        </Button>
+        </ButtonC>
       </Tmenu>
 
       {!!clientes.length > 0 && (

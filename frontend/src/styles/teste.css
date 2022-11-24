@@ -1,6 +1,79 @@
 .teste {
        background-color: #2a2b49;
 }
-.teste:last-child{
+
+.teste:last-child {
        color: #dadada;
+}
+
+.input-template {
+       margin-bottom: 16px;
+       display: flex;
+       flex-direction: column;
+       padding: 0px 15px;
+}
+
+.input-template-1 {
+       position: relative;
+}
+
+.input-template-2:focus-within {
+       outline: none;
+       border-color: red;
+}
+
+input:focus {
+       outline: none;
+       border-color: blue;
+}
+
+input:focus~label {
+       color: red;
+}
+
+input {
+       font-size: 0.875rem;
+       line-height: 1.5rem;
+       width: 100%;
+       padding: 10px 13px;
+       /* altura/lagura do input */
+       border: solid 1px #adb0b3;
+       border-radius: 0.25rem;
+}
+
+input:disabled~label {
+       color: #b7bcc3;
+       opacity: 1;
+}
+
+input:disabled {
+       color: #b1b6bd;
+       opacity: 1;
+}
+
+label {
+       position: absolute;
+       pointer-events: none;
+       left: 1rem;
+       top: 50%;
+       transform: translateY(-50%);
+       transition: all 300ms ease 0s;
+       color: #545657;
+       font-size: 0.75rem;
+       line-height: 1rem;
+       background-color: transparent;
+}
+
+input~label {
+       top: 22px;
+       left: 0.8125rem;
+       background-color: #ffffff;
+       padding: 0px 0.2rem;
+       font-size: 0.75rem;
+       line-height: 1.125rem;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+       font-size: 16px;
+       background-color: red;
 }

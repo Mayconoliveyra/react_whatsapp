@@ -12,6 +12,21 @@ const TmenuSC = styled.div`
     align-items: flex-end;
     font-family: ${theme.font.family.medium};
     font-size: ${theme.font.sizes.medium};
+    a {
+      border: none;
+      background-color: transparent;
+      font-family: ${theme.font.family.medium};
+      font-size: ${theme.font.sizes.small};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0px 30px 0px 5px;
+      svg {
+        margin-right: 8px;
+        font-size: 28px;
+      }
+    }
   }
   div:nth-child(2) {
     flex: 1;

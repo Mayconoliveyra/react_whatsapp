@@ -51,6 +51,7 @@ export const GlobalStyles = createGlobalStyle`
   li{
     list-style-type: none;
   }
+
   a,button {
     text-decoration:none;
     color:  #252644; /* cor padrão */
@@ -60,6 +61,16 @@ export const GlobalStyles = createGlobalStyle`
       color:  #252644; /* cor padrão */
       opacity: 85%;
     }
+  }
+    input:active, button:active {
+    outline-style: none !important;
+    box-shadow: 0 0 0 0 !important;
+    outline: 0 !important;
+  }
+    input:focus, button:focus {
+    outline-style: none !important;
+    box-shadow: 0 0 0 0 !important;
+    outline: 0 !important;
   }
   .table {
     width: 100%;

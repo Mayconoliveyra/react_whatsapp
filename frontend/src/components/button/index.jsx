@@ -36,7 +36,7 @@ const InputSearchSC = styled.div`
   }
 `;
 
-export const Button = ({ children, css = {} }) => {
+export const ButtonC = ({ children, css = {} }) => {
   const cssDefault = {
     fontSize: css.fontSize ? css.fontSize : "",
     color: css.color ? css.color : "",
