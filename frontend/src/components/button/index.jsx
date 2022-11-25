@@ -36,7 +36,8 @@ const InputSearchSC = styled.div`
   }
 `;
 
-export const ButtonC = ({ children, css = {} }) => {
+export const ButtonC = (props) => {
+  const css = props.css ? props.css : {};
   const cssDefault = {
     fontSize: css.fontSize ? css.fontSize : "",
     color: css.color ? css.color : "",
@@ -47,8 +48,8 @@ export const ButtonC = ({ children, css = {} }) => {
     borderRadius: css.borderRadius ? css.borderRadius : "",
   };
   return (
-    <ButtonSC css={cssDefault} type="button">
-      {children}
+    <ButtonSC css={cssDefault} {...props}>
+      {props.children}
     </ButtonSC>
   );
 };

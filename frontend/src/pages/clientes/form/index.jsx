@@ -6,22 +6,43 @@ import { Tmenu } from "../../../components/table";
 import { ButtonC } from "../../../components/button";
 import LinkRouter from "../../../components/link";
 
+import { toast } from "react-toastify";
+
 import { Files, Download, Repeat, Reply } from "react-bootstrap-icons";
 
 import { FormC, GroupC } from "../../../components/form";
 import { masks } from "../../../components/form/masks";
+import { useRef } from "react";
 
 export default function FormClientes() {
-  const btnVoltar = (
-    <LinkRouter to="/clientes" css={{ backgroundColor: "transparent" }}>
-      <Reply />
-    </LinkRouter>
-  );
+  const formRef = useRef();
+  const handleSubmitForm = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+    }
+  };
   function onSubmit(values, actions) {
     console.log(values);
     console.log(actions);
   }
 
+  const btnVoltar = (
+    <LinkRouter to="/clientes" css={{ backgroundColor: "transparent" }}>
+      <Reply />
+    </LinkRouter>
+  );
+
+  const notify = () =>
+    toast.success("Operação realizada com sucesso!.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   return (
     <>
       <PageTitle
@@ -34,7 +55,7 @@ export default function FormClientes() {
           <Files />
           Clonar cadatro
         </ButtonC>
-        <ButtonC>
+        <ButtonC type="submit" onClick={handleSubmitForm}>
           <Download />
           Salvar cadastro
         </ButtonC>
@@ -42,10 +63,13 @@ export default function FormClientes() {
           <Repeat />
           Atualizar página
         </ButtonC>
+        <button onClick={notify}>Notify!</button>
       </Tmenu>
-      <button type="submit">Enviar</button>
+
       <Formik
+        innerRef={formRef}
         onSubmit={onSubmit}
+        handleSubmit
         validationSchema={scheme}
         initialValues={{
           nome: "",
@@ -58,8 +82,8 @@ export default function FormClientes() {
           categoria: "",
         }}
       >
-        {() => (
-          <FormC>
+        {(handleSubmit) => (
+          <FormC onSubmit={handleSubmit}>
             <GroupC label="Nome*" name="nome" />
 
             <GroupC
@@ -83,7 +107,6 @@ export default function FormClientes() {
             />
 
             <GroupC label="Categoria" name="categoria" />
-            <button type="submit">Enviar</button>
           </FormC>
         )}
       </Formik>
