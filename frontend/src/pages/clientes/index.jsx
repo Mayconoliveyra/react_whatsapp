@@ -1,11 +1,18 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import {
+  PersonCircle,
+  CloudDownload,
+  VinylFill,
+  ThreeDotsVertical,
+} from "react-bootstrap-icons";
+import { toast } from "react-toastify";
+
 import { all } from "../../adapters/clientes";
-
 import { theme } from "../../styles/theme";
-
 import PageTitle from "../../components/pageTitle";
 import { ButtonC, InputSearch } from "../../components/button";
-import LinkRouter from "../../components/link";
+
 import {
   Tmenu,
   Table,
@@ -14,14 +21,6 @@ import {
   TdDescription,
   Tfoot,
 } from "../../components/table";
-
-import {
-  PersonCircle,
-  CloudDownload,
-  VinylFill,
-  ThreeDotsVertical,
-} from "react-bootstrap-icons";
-import { toast } from "react-toastify";
 
 export default function Clientes() {
   const [loading, setLoading] = useState(true);
@@ -98,24 +97,30 @@ export default function Clientes() {
         description="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
       />
 
-      <Tmenu title="Clientes">
-        <InputSearch></InputSearch>
-        <LinkRouter to="novo">
-          <PersonCircle /> Novo cliente
-        </LinkRouter>
-        <ButtonC>
-          <CloudDownload />
-          Importar contatos
-        </ButtonC>
-        <ButtonC
-          css={{
-            backgroundColor: theme.colors.secondaryColor,
-            color: theme.colors.primaryColor,
-          }}
-        >
-          <VinylFill />
-          Sicronizar contatos
-        </ButtonC>
+      <Tmenu>
+        <div data-title>
+          <h2>Clientes</h2>
+        </div>
+
+        <div>
+          <InputSearch></InputSearch>
+          <Link to="/clientes/novo">
+            <PersonCircle /> Novo cliente
+          </Link>
+          <ButtonC>
+            <CloudDownload />
+            Importar contatos
+          </ButtonC>
+          <ButtonC
+            css={{
+              backgroundColor: theme.colors.secondaryColor,
+              color: theme.colors.primaryColor,
+            }}
+          >
+            <VinylFill />
+            Sicronizar contatos
+          </ButtonC>
+        </div>
       </Tmenu>
 
       {!!clientes.length > 0 && (
@@ -123,7 +128,7 @@ export default function Clientes() {
           <TBody>
             {clientes.map((item) => {
               return (
-                <tr key={item.codigo}>
+                <tr key={item.id}>
                   <TdDefault css={cssTdDefault}>{item.nome}</TdDefault>
                   <TdDescription css={{ maxWidth: 150 }} descricao="Numero">
                     {item.nmr_contato}

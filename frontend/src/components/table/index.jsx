@@ -7,15 +7,20 @@ const TmenuSC = styled.div`
   justify-content: space-between;
   padding: 5px;
 
-  div:nth-child(1) {
+  [data-title] {
     display: flex;
     align-items: flex-end;
-    font-family: ${theme.font.family.medium};
-    font-size: ${theme.font.sizes.medium};
+    h2 {
+      font-family: ${theme.font.family.medium};
+      font-size: ${theme.font.sizes.medium};
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+  [data-link] {
     a {
       border: none;
       background-color: transparent;
-      font-family: ${theme.font.family.medium};
       font-size: ${theme.font.sizes.small};
       display: flex;
       align-items: center;
@@ -28,6 +33,7 @@ const TmenuSC = styled.div`
       }
     }
   }
+
   div:nth-child(2) {
     flex: 1;
     display: flex;
@@ -187,13 +193,8 @@ const TdDescriptionSC = styled.td`
   }
 `;
 
-export const Tmenu = ({ title, children }) => {
-  return (
-    <TmenuSC>
-      <div>{title}</div>
-      <div>{children}</div>
-    </TmenuSC>
-  );
+export const Tmenu = ({ children }) => {
+  return <TmenuSC>{children}</TmenuSC>;
 };
 
 export const Table = ({ children }) => {

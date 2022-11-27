@@ -17,7 +17,6 @@ module.exports = (app) => {
             id_dispositivo: body.id_dispositivo,
             id_categoria: body.id_categoria,
         };
-        console.log(modelo);
 
         try {
             existeOuErro(modelo.nome, "Nome é obrigatório");
@@ -28,13 +27,13 @@ module.exports = (app) => {
             if (modelo.nmr_contato.length != 10)
                 throw "Número de contato deve ter exatamente 10 caracteres";
 
-            const contatdoDB = await app
+            const contatoDB = await app
                 .db("cadastro_clientes")
                 .where({ nmr_contato: modelo.nmr_contato })
                 .andWhere("id", "!=", `'${idParams}'`)
                 .first();
             naoExisteOuErro(
-                contatdoDB,
+                contatoDB,
                 "Já existe cadastro para o [Número de contato*]."
             );
         } catch (msg) {
@@ -74,31 +73,32 @@ module.exports = (app) => {
     };
 
     const get = async (req, res) => {
+        const table = "cadastro_clientes";
         const page = req.query._page;
         const limit = req.query._limit;
-        console.log(`page: ${page}; limit ${limit}`);
+
         const dados = await app.db.raw(
-            `SELECT * FROM cadastro_clientes 
+            `SELECT * FROM ${table} 
             ${whereNullExcluido}
-            ${orderBy("codigo", "ASC")}
+            ${orderBy("id", "ASC")}
             ${LimitOFFSET(page, limit)}`
         );
 
         const { total } = await app
-            .db("cadastro_clientes")
+            .db(table)
             .count({ total: "*" })
             .whereNull("excluido_em")
             .first();
 
         const { ativos } = await app
-            .db("cadastro_clientes")
+            .db(table)
             .count({ ativos: "*" })
             .where({ desativado: false })
             .whereNull("excluido_em")
             .first();
 
         const { inativos } = await app
-            .db("cadastro_clientes")
+            .db(table)
             .count({ inativos: "*" })
             .where({ desativado: true })
             .whereNull("excluido_em")

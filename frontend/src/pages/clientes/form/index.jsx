@@ -1,13 +1,14 @@
-import { store as saveClientes, scheme } from "../../../adapters/clientes";
+import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 import { Formik } from "formik";
+import { Files, Download, Repeat, Reply } from "react-bootstrap-icons";
+
+import { store as saveClientes, scheme } from "../../../adapters/clientes";
 import PageTitle from "../../../components/pageTitle";
 import { Tmenu } from "../../../components/table";
-import LinkRouter from "../../../components/link";
-import { toast } from "react-toastify";
-import { Files, Download, Repeat, Reply } from "react-bootstrap-icons";
 import { FormC, GroupC } from "../../../components/form";
 import { masks } from "../../../components/form/masks";
-import { useRef } from "react";
 
 export default function FormClientes() {
   const formRef = useRef();
@@ -27,33 +28,32 @@ export default function FormClientes() {
       formRef.current.handleSubmit();
     }
   };
-
-  const btnVoltar = (
-    <LinkRouter to="/clientes" css={{ backgroundColor: "transparent" }}>
-      <Reply />
-    </LinkRouter>
-  );
-
   return (
     <>
       <PageTitle
         src="c_clientes.jpg"
-        title="Cadastro de clientes"
         description="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
       />
-      <Tmenu title={btnVoltar}>
-        <button type="button">
-          <Files />
-          Clonar cadatro
-        </button>
-        <button type="submit" ref={buttonSaveRef} onClick={handleSubmitForm}>
-          <Download />
-          Salvar cadastro
-        </button>
-        <button type="button">
-          <Repeat />
-          Atualizar página
-        </button>
+      <Tmenu>
+        <div data-link>
+          <Link to="/clientes">
+            <Reply />
+          </Link>
+        </div>
+        <div>
+          <button type="button">
+            <Files />
+            Clonar cadatro
+          </button>
+          <button type="submit" ref={buttonSaveRef} onClick={handleSubmitForm}>
+            <Download />
+            Salvar cadastro
+          </button>
+          <button type="button">
+            <Repeat />
+            Atualizar página
+          </button>
+        </div>
       </Tmenu>
 
       <Formik
