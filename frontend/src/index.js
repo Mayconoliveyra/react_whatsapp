@@ -13,7 +13,6 @@ root.render(
 /* TEMPORARIO!! => ISSO EVITA QUE O useEffcet fique executando x2 no desenvolvimento. */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./pages/app";
 

@@ -1,97 +1,75 @@
 module.exports = (app) => {
-    const { existeOuErro, util_console, msgPadraoErro } = app.api.utilitarios;
+    const { existeOuErro, naoExisteOuErro, util_console, msgPadraoErro } =
+        app.api.utilitarios;
     const { LimitOFFSET, orderBy, whereNullExcluido } = app.api.queries;
 
-    const save = (req, res) => {
-        const clienteBody = req.body;
-        const codigoSerialParams = Number(
-            req.params.codigo_serial
-        ); /* quando vem da api fica codigo-API, função Number remover texto deixando apenas numeros */
+    const save = async (req, res) => {
+        const body = req.body;
+        const idParams = Number(req.params.id);
 
         const modelo = {
-            nmr_whatsapp: clienteBody.nmr_whatsapp,
-            nome_cliente: clienteBody.nome_cliente,
-            empresa: clienteBody.empresa,
-            cpf_cnpj: clienteBody.cpf_cnpj,
-            codigo_integracao: clienteBody.codigo_integracao,
-            desativado: clienteBody.desativado,
+            nome: body.nome,
+            nmr_contato: body.nmr_contato,
+            email: body.email,
+            cpf_cnpj: body.cpf_cnpj,
+            codigo_integracao: body.codigo_integracao,
+            sexo: body.sexo,
+            id_dispositivo: body.id_dispositivo,
+            id_categoria: body.id_categoria,
         };
+        console.log(modelo);
 
         try {
-            existeOuErro(
-                modelo.nmr_whatsapp,
-                "[Número WhatsApp*] deve ser preenchido."
-            );
-            /* Se o numero de contato tiver 11 digitos remove o 9. */
-            if (modelo.nmr_whatsapp.length == 11) {
-                modelo.nmr_whatsapp = `${modelo.nmr_whatsapp.substr(
-                    0,
-                    2
-                )}${modelo.nmr_whatsapp.substr(3, 10)}`;
-            }
-            if (modelo.nmr_whatsapp.length != 10)
-                throw "[Número WhatsApp*] deve ser preenchido com 10 dígito.";
-            existeOuErro(
-                modelo.nome_cliente,
-                "[Nome do contato*] deve ser preenchido."
+            existeOuErro(modelo.nome, "Nome é obrigatório");
+            existeOuErro(modelo.nmr_contato, "Número de contato é obrigatório");
+            modelo.nmr_contato = modelo.nmr_contato
+                .normalize("NFD")
+                .replace(/[^a-zA-Z0-9s]/g, "");
+            if (modelo.nmr_contato.length != 10)
+                throw "Número de contato deve ter exatamente 10 caracteres";
+
+            const contatdoDB = await app
+                .db("cadastro_clientes")
+                .where({ nmr_contato: modelo.nmr_contato })
+                .andWhere("id", "!=", `'${idParams}'`)
+                .first();
+            naoExisteOuErro(
+                contatdoDB,
+                "Já existe cadastro para o [Número de contato*]."
             );
         } catch (msg) {
             return res.status(400).send(msg);
         }
 
-        /* Se api = true, atualiza o cadastro na retaguarda(softshop) */
-        if (clienteBody.api && codigoSerialParams) {
-            const modeloSoftshop = {
-                Fone: modelo.nmr_whatsapp.substr(2, 10),
-                NomeContato: modelo.nome_cliente,
-                DDD: modelo.nmr_whatsapp.substr(0, 2),
-            };
-            app.db("cadastro de Clientes_Fones")
-                .update(modeloSoftshop)
-                .where({ Sequencia: codigoSerialParams })
+        if (idParams) {
+            app.db("cadastro_clientes")
+                .update(modelo)
+                .where({ id: idParams })
                 .then(() => res.status(204).send())
                 .catch((error) => {
                     util_console({
                         funcao: "clientes.save",
                         tipo: "ERRO",
-                        mensagem:
-                            "Não foi possível editar cliente(modeloSoftshop).",
+                        mensagem: "Não foi possível editar cliente.",
                         erro: error,
                         salvarDB: true,
                     });
                     return res.status(500).send(msgPadraoErro);
                 });
         } else {
-            if (codigoSerialParams) {
-                app.db("cadastro_clientes")
-                    .update(modelo)
-                    .where({ codigo_serial: codigoSerialParams })
-                    .then(() => res.status(204).send())
-                    .catch((error) => {
-                        util_console({
-                            funcao: "clientes.save",
-                            tipo: "ERRO",
-                            mensagem: "Não foi possível editar cliente.",
-                            erro: error,
-                            salvarDB: true,
-                        });
-                        return res.status(500).send(msgPadraoErro);
+            app.db("cadastro_clientes")
+                .insert(modelo)
+                .then(() => res.status(204).send())
+                .catch((error) => {
+                    util_console({
+                        funcao: "clientes.save",
+                        tipo: "ERRO",
+                        mensagem: "Não foi possível cadastrar cliente.",
+                        erro: error,
+                        salvarDB: true,
                     });
-            } else {
-                app.db("cadastro_clientes")
-                    .insert(modelo)
-                    .then(() => res.status(204).send())
-                    .catch((error) => {
-                        util_console({
-                            funcao: "clientes.save",
-                            tipo: "ERRO",
-                            mensagem: "Não foi possível cadastrar cliente.",
-                            erro: error,
-                            salvarDB: true,
-                        });
-                        return res.status(500).send(msgPadraoErro);
-                    });
-            }
+                    return res.status(500).send(msgPadraoErro);
+                });
         }
     };
 
@@ -130,11 +108,11 @@ module.exports = (app) => {
     };
 
     const remove = async (req, res) => {
-        const codigoParams = req.params.codigo_serial;
+        const codigoParams = req.params.id;
         try {
             const clienteFromDB = await app
                 .db("cadastro_clientes")
-                .where({ codigo_serial: codigoParams })
+                .where({ id: codigoParams })
                 .first();
             existeOuErro(
                 clienteFromDB,
@@ -146,7 +124,7 @@ module.exports = (app) => {
         await app
             .db("cadastro_clientes")
             .update({ excluido_em: app.db.fn.now() })
-            .where({ codigo_serial: codigoParams })
+            .where({ id: codigoParams })
             .then(() => res.status(204).send())
             .catch((error) => {
                 util_console({

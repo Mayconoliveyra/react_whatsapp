@@ -3,11 +3,11 @@ module.exports = app => {
 
         async function enviarMensagemTexto(processo) {
                 const codigo_processo = processo.codigo_processo
-                const nmr_whatsapp = processo.nmr_whatsapp
+                const nmr_contato = processo.nmr_contato
                 const mensagem_texto = processo.mensagem_texto
 
                 await app.whatasappData
-                        .sendText(`55${nmr_whatsapp}@c.us`, mensagem_texto)
+                        .sendText(`55${nmr_contato}@c.us`, mensagem_texto)
                         .then(() => {
                                 /* Seta [enviado_em = DataAtual], já tava definido antes, mas por garantia seta novamente. */
                                 setEnviado({ codigo_processo, enviado_em: app.db.fn.now(), msg_result: 'Success.' })

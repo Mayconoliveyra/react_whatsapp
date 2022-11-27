@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import apiUrl from "../../global";
-import axios from "axios";
+import { all } from "../../adapters/clientes";
 
 import { theme } from "../../styles/theme";
 
@@ -22,6 +21,7 @@ import {
   VinylFill,
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
+import { toast } from "react-toastify";
 
 export default function Clientes() {
   const [loading, setLoading] = useState(true);
@@ -66,21 +66,25 @@ export default function Clientes() {
     getClientes();
   }, [nextPage]);
 
-  async function getClientes() {
-    setLoading(true);
-    const url = `${apiUrl}/clientes?_page=${nextPage}&_limit=${limitPage}`;
-    await axios.get(url).then((res) => {
-      console.log("getApi; pag: " + nextPage);
-      const data = res.data;
-      setClientes({
-        clientes: [...clientes, ...data.dados],
-        total: data.total,
-        ativos: data.ativos,
-        inativos: data.inativos,
+  const getClientes = async () => {
+    await all(nextPage, limitPage)
+      .then(async (res) => {
+        const data = res.data;
+        setClientes({
+          clientes: [...clientes, ...data.dados],
+          total: data.total,
+          ativos: data.ativos,
+          inativos: data.inativos,
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error(
+          "Ops... Não possível realizar a operação. Por favor tente novamente."
+        );
+        return Promise.resolve([]);
       });
-      setLoading(false);
-    });
-  }
+  };
 
   const cssTdDefault = {
     maxWidth: 999,
@@ -122,16 +126,16 @@ export default function Clientes() {
                 <tr key={item.codigo}>
                   <TdDefault css={cssTdDefault}>{item.nome}</TdDefault>
                   <TdDescription css={{ maxWidth: 150 }} descricao="Numero">
-                    {item.nmr_whatsapp}
+                    {item.nmr_contato}
                   </TdDescription>
                   <TdDescription css={{ maxWidth: 150 }} descricao="Categoria">
-                    {item.nmr_whatsapp}
+                    {item.nmr_contato}
                   </TdDescription>
                   <TdDescription
                     css={{ maxWidth: 150 }}
                     descricao="Dispositivo"
                   >
-                    {item.nmr_whatsapp}
+                    {item.nmr_contato}
                   </TdDescription>
                   {!item.desativado && (
                     <TdDefault

@@ -112,9 +112,9 @@ module.exports = app => {
                 try {
 
                         clientes = await app.db.raw(`SELECT 
-                                wpp_view_clientes_integrar.codigo_serial, 
-                                wpp_view_clientes_integrar.nome_cliente, 
-                                wpp_view_clientes_integrar.nmr_whatsapp, 
+                                wpp_view_clientes_integrar.id, 
+                                wpp_view_clientes_integrar.nome, 
+                                wpp_view_clientes_integrar.nmr_contato, 
                                 wpp_view_clientes_integrar.empresa, 
                                 wpp_view_clientes_integrar.cpf_cnpj, 
                                 wpp_view_clientes_integrar.codigo_integracao, 
@@ -122,11 +122,11 @@ module.exports = app => {
                                 Max(IIf([id_campanha]= ${codigo_campanha},1,0)) AS selecionado
                                 FROM wpp_view_clientes_integrar 
                                 LEFT JOIN wpp_fila_execucao 
-                                ON wpp_view_clientes_integrar.codigo_serial = 
+                                ON wpp_view_clientes_integrar.id = 
                                 wpp_fila_execucao.id_cliente
-                                GROUP BY wpp_view_clientes_integrar.codigo_serial, 
-                                wpp_view_clientes_integrar.nome_cliente, 
-                                wpp_view_clientes_integrar.nmr_whatsapp, 
+                                GROUP BY wpp_view_clientes_integrar.id, 
+                                wpp_view_clientes_integrar.nome, 
+                                wpp_view_clientes_integrar.nmr_contato, 
                                 wpp_view_clientes_integrar.empresa, 
                                 wpp_view_clientes_integrar.cpf_cnpj, 
                                 wpp_view_clientes_integrar.codigo_integracao, 
@@ -135,7 +135,7 @@ module.exports = app => {
                                 wpp_view_clientes_integrar.excluido_em
                                 HAVING (((wpp_view_clientes_integrar.[desativado])=0) 
                                 AND ((wpp_view_clientes_integrar.excluido_em) Is Null))
-                                ORDER BY wpp_view_clientes_integrar.nome_cliente, 
+                                ORDER BY wpp_view_clientes_integrar.nome, 
                                 Max(IIf([id_campanha]= ${codigo_campanha},1,0));`)
 
                         const CliSelecionados = await app.db
@@ -143,9 +143,9 @@ module.exports = app => {
                                 .select(
                                         "id_campanha",
                                         "id_cliente",
-                                        "nome_cliente",
+                                        "nome",
                                         "codigo_integracao",
-                                        "nmr_whatsapp",
+                                        "nmr_contato",
                                         "msg_result",
                                         "mensagem_texto")
                                 .where({ id_campanha: codigo_campanha })
@@ -247,7 +247,7 @@ module.exports = app => {
             novoProcesso({
                 tipo_executar: 1,
                 mensagem_texto: 'Mensagem teste',
-                nmr_whatsapp: '8399675920',
+                nmr_contato: '8399675920',
                 nivel_prioridade: 0
             })
          
@@ -255,7 +255,7 @@ module.exports = app => {
             novoProcesso({
                 tipo_executar: 2,
                 nome_template: 'BOAS_VIDNDAS',
-                nmr_whatsapp: '8399675920',
+                nmr_contato: '8399675920',
                 nivel_prioridade: 0
             })
          
@@ -272,7 +272,7 @@ module.exports = app => {
                 mensagem_texto,
                 nome_template,
                 nome_funcao,
-                nmr_whatsapp,
+                nmr_contato,
                 nome_atendente,
                 nivel_prioridade,
         }) {
@@ -281,7 +281,7 @@ module.exports = app => {
                         mensagem_texto,
                         nome_template,
                         nome_funcao,
-                        nmr_whatsapp,
+                        nmr_contato,
                         nome_atendente,
                         nivel_prioridade,
                 }
@@ -294,7 +294,7 @@ module.exports = app => {
                 [mensagem_texto] precisa ser preenchida quando [tipo_executar] = 1, a mensagem preenchida vai ser enviada para o cliente.
                 [nome_template] precisa ser preenchida quando [tipo_executar] = 2, preencher com o nome do template a ser enviado. [wpp_mensagens_templates > template].
                 [nome_funcao] precisa ser preenchida quando [tipo_executar] = 3, preencher com o nome da função a ser executada
-                [nmr_whatsapp] preencher com o número de contato destino, 10 digitos(ex: 8399675920), se [tipo_executar] = 1 ou 2, obrigatoriamente precisa ser preenchida.
+                [nmr_contato] preencher com o número de contato destino, 10 digitos(ex: 8399675920), se [tipo_executar] = 1 ou 2, obrigatoriamente precisa ser preenchida.
                 [nome_atendente] preencher com o nome do atendente que ta enviando a mensagem.
                 [nivel_prioridade] preencher com o nivel de prioridade de envio. 0 menor nivel, 9 maior nivel de prioridade, isso quer dizer que a 9 vai ser enviado primeiro.
                 */
@@ -302,8 +302,8 @@ module.exports = app => {
                         existeOuErro(modelo.tipo_executar, "[tipo_executar]* Não pode ser nulo, precisa sem preenchida com uma das opçoes: 1, 2 ou 3")
                         if (tipo_executar != 1 && tipo_executar != 2 && tipo_executar != 3) throw '[tipo_executar]* precisa ser preenchido com: 1, 2 ou 3.'
                         if (tipo_executar == 1 || tipo_executar == 2) {
-                                existeOuErro(nmr_whatsapp, "[nmr_whatsapp] preencher com o número de contato destino, 10 digitos(ex: 8399675920), se [tipo_executar] = 1 ou 2, obrigatoriamente precisa ser preenchida.")
-                                if (nmr_whatsapp.length != 10) throw '[nmr_whatsapp] precisa ter o tamanho válido de 10 digitos(ex: 8399675920).'
+                                existeOuErro(nmr_contato, "[nmr_contato] preencher com o número de contato destino, 10 digitos(ex: 8399675920), se [tipo_executar] = 1 ou 2, obrigatoriamente precisa ser preenchida.")
+                                if (nmr_contato.length != 10) throw '[nmr_contato] precisa ter o tamanho válido de 10 digitos(ex: 8399675920).'
                         }
                 } catch (error) {
                         util_console({ funcao: 'novoProcesso', tipo: 'ERRO-400', mensagem: 'Não foi possível adicionar um novo processo.', erro: error, salvarDB: true })

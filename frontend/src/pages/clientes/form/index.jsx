@@ -1,30 +1,32 @@
+import { store as saveClientes, scheme } from "../../../adapters/clientes";
 import { Formik } from "formik";
-import scheme from "../../../scheme";
-
 import PageTitle from "../../../components/pageTitle";
 import { Tmenu } from "../../../components/table";
-import { ButtonC } from "../../../components/button";
 import LinkRouter from "../../../components/link";
-
 import { toast } from "react-toastify";
-
 import { Files, Download, Repeat, Reply } from "react-bootstrap-icons";
-
 import { FormC, GroupC } from "../../../components/form";
 import { masks } from "../../../components/form/masks";
 import { useRef } from "react";
 
 export default function FormClientes() {
   const formRef = useRef();
+  const buttonSaveRef = useRef();
+
   const handleSubmitForm = () => {
+    buttonSaveRef.current.disabled = true;
+    setTimeout(() => {
+      buttonSaveRef.current.disabled = false;
+    }, 1500);
     if (formRef.current) {
+      if (!formRef.current.isValid) {
+        Object.keys(formRef.current.errors).forEach((item) => {
+          toast.error(`${formRef.current.errors[item]}`);
+        });
+      }
       formRef.current.handleSubmit();
     }
   };
-  function onSubmit(values, actions) {
-    console.log(values);
-    console.log(actions);
-  }
 
   const btnVoltar = (
     <LinkRouter to="/clientes" css={{ backgroundColor: "transparent" }}>
@@ -32,17 +34,6 @@ export default function FormClientes() {
     </LinkRouter>
   );
 
-  const notify = () =>
-    toast.success("Operação realizada com sucesso!.", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
   return (
     <>
       <PageTitle
@@ -51,39 +42,47 @@ export default function FormClientes() {
         description="Cadastre aqui os seus clientes que irão receber as informações das campanhas."
       />
       <Tmenu title={btnVoltar}>
-        <ButtonC>
+        <button type="button">
           <Files />
           Clonar cadatro
-        </ButtonC>
-        <ButtonC type="submit" onClick={handleSubmitForm}>
+        </button>
+        <button type="submit" ref={buttonSaveRef} onClick={handleSubmitForm}>
           <Download />
           Salvar cadastro
-        </ButtonC>
-        <ButtonC>
+        </button>
+        <button type="button">
           <Repeat />
           Atualizar página
-        </ButtonC>
-        <button onClick={notify}>Notify!</button>
+        </button>
       </Tmenu>
 
       <Formik
         innerRef={formRef}
-        onSubmit={onSubmit}
-        handleSubmit
+        validateOnMount
         validationSchema={scheme}
         initialValues={{
-          nome: "",
-          nmr_contato: "",
-          email: "",
-          cpf_cnpj: "",
-          dispositivo: "",
-          sexo: "",
-          data_nascimento: "",
-          categoria: "",
+          id: undefined,
+          nome: undefined,
+          nmr_contato: undefined,
+          email: undefined,
+          cpf_cnpj: undefined,
+          sexo: "Selecione",
+          nascimento: undefined,
+          id_dispositivo: undefined,
+          id_categoria: undefined,
+        }}
+        onSubmit={async (values) => {
+          await saveClientes(values, values.id)
+            .then(() => {
+              toast.success("Operação realizada com sucesso!.");
+            })
+            .catch((error) => {
+              toast.error(`${error.response.data}`);
+            });
         }}
       >
-        {(handleSubmit) => (
-          <FormC onSubmit={handleSubmit}>
+        {() => (
+          <FormC>
             <GroupC label="Nome*" name="nome" />
 
             <GroupC
@@ -91,22 +90,16 @@ export default function FormClientes() {
               name="nmr_contato"
               mask={masks.phone}
             />
-
             <GroupC label="E-mail" name="email" />
-
             <GroupC label="CPF/CNPJ" name="cpf_cnpj" />
-
-            <GroupC label="Dispositivo" name="dispositivo" />
-
+            <GroupC label="Dispositivo" name="id_dispositivo" />
             <GroupC label="Sexo" name="sexo" />
-
             <GroupC
               label="Data de nascimento"
-              name="data_nascimento"
+              name="nascimento"
               mask={masks.date}
             />
-
-            <GroupC label="Categoria" name="categoria" />
+            <GroupC label="Categoria" name="id_categoria" />
           </FormC>
         )}
       </Formik>

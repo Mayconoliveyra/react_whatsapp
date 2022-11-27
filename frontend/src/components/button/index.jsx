@@ -11,7 +11,6 @@ const ButtonSC = styled.button`
   padding: ${({ css }) => css.padding} !important;
   margin: ${({ css }) => css.margin} !important;
   border-radius: ${({ css }) => css.borderRadius} !important;
-  background-color: red;
 `;
 
 const InputSearchSC = styled.div`

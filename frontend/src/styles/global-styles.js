@@ -61,6 +61,12 @@ export const GlobalStyles = createGlobalStyle`
       color:  #252644; /* cor padrão */
       opacity: 85%;
     }
+    &:disabled {
+      background-color:#efefef4d !important;
+      color:#1010104d !important;
+      border: 1px solid #7676764d !important;
+      opacity: 100% !important;
+    }
   }
     input:active, button:active {
     outline-style: none !important;

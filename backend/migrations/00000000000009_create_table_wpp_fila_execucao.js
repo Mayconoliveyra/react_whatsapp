@@ -6,7 +6,7 @@ exports.up = function (knex) {
                 table.integer("id_campanha") /* Codigo da campanha */
                 table.string("id_cliente", 191) /* String porque quando vem da api ele vem como string. ex: API-4, API-5... */
 
-                table.string("nome_cliente", 191) /* String porque quando vem da api ele vem como string. ex: API-4, API-5... */
+                table.string("nome", 191) /* String porque quando vem da api ele vem como string. ex: API-4, API-5... */
                 table.string("codigo_integracao", 191) /* String porque quando vem da api ele vem como string. ex: API-4, API-5... */
 
                 table.integer("tipo_executar").notNull().defaultTo(1) /* 1=Envia mensagem digitada; 2= envia mensagem com template; 3= chama função */
@@ -18,7 +18,7 @@ exports.up = function (knex) {
                 table.string("nome_funcao", 191) /* Se [tipo_executar = 3], esse campo obrigatoriamente precisa ser preenchido com o nome da função a ser executada */
 
                 table.string("contato_empresa", 12) /* Número que enviou a mensagem(origem) */
-                table.string("nmr_whatsapp", 10) /* Número que vai receber a mensagem(destino) */
+                table.string("nmr_contato", 10) /* Número que vai receber a mensagem(destino) */
 
                 /* Prioridade que a mensagem será enviada:*/
                 /* 9 = maior prioridade */
