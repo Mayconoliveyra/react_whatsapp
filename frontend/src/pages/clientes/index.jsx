@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   PersonCircle,
   CloudDownload,
   VinylFill,
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
-import { toast } from "react-toastify";
 
 import { all } from "../../adapters/clientes";
 import { theme } from "../../styles/theme";
