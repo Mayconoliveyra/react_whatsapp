@@ -8,7 +8,7 @@ import {
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 
-import { all } from "../../adapters/clientes";
+import { get as getAllClientes } from "../../adapters/clientes";
 import { theme } from "../../styles/theme";
 import PageTitle from "../../components/pageTitle";
 import { InputSearch } from "../../components/button";
@@ -47,7 +47,7 @@ export default function Clientes() {
     /* Altura atual da barra scroll na tbody(0% a 99%) 0 inicio  e 99 final. */
     let alturaScroll = parseFloat(
       (100 * refTable.scrollTop) /
-        (refTable.scrollHeight - refTable.clientHeight)
+      (refTable.scrollHeight - refTable.clientHeight)
     );
 
     if (
@@ -66,8 +66,8 @@ export default function Clientes() {
   }, [nextPage]);
 
   const getClientes = async () => {
-    await all(nextPage, limitPage)
-      .then(async (res) => {
+    await getAllClientes({ page: nextPage, limit: limitPage })
+      .then((res) => {
         const data = res.data;
         setClientes({
           clientes: [...clientes, ...data.dados],
@@ -81,7 +81,6 @@ export default function Clientes() {
         toast.error(
           "Ops... Não possível realizar a operação. Por favor tente novamente."
         );
-        return Promise.resolve([]);
       });
   };
 
@@ -100,7 +99,7 @@ export default function Clientes() {
 
         <div>
           <InputSearch></InputSearch>
-          <Link to="/cliente/novo">
+          <Link to="/clientes/novo">
             <PersonCircle /> Novo cliente
           </Link>
           <button type="button">

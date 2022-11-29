@@ -1,10 +1,10 @@
 module.exports = (app) => {
-    const { existeOuErro, notExistOrError, util_console, msgPadraoErro, formatBody, notExistOrErrorDB } =
-        app.api.utilitarios;
+    const { existeOuErro, util_console, msgPadraoErro, formatBody, notExistOrErrorDB } = app.api.utilitarios;
     const { LimitOFFSET, orderBy, whereNullExcluido } = app.api.queries;
 
+    const table = "cadastro_clientes";
+
     const save = async (req, res) => {
-        const table = "cadastro_clientes";
         const body = formatBody(req.body)
         const idParams = Number(req.params.id);
 
@@ -41,7 +41,7 @@ module.exports = (app) => {
                 .then(() => res.status(204).send())
                 .catch((error) => {
                     util_console({
-                        funcao: "clientes.save",
+                        funcao: "save",
                         tipo: "ERRO",
                         mensagem: "Não foi possível editar cliente.",
                         erro: error,
@@ -67,13 +67,12 @@ module.exports = (app) => {
     };
 
     const get = async (req, res) => {
-        const table = "cadastro_clientes";
         const page = req.query._page;
         const limit = req.query._limit;
         const id = req.query._id;
 
         if (id) {
-            await app.db("cadastro_clientes").where({ id: id }).whereNull("excluido_em").first()
+            await app.db(table).where({ id: id }).whereNull("excluido_em").first()
                 .then(cliente => res.json(cliente))
                 .catch((error) => {
                     util_console({
@@ -123,7 +122,7 @@ module.exports = (app) => {
         const codigoParams = req.params.id;
         try {
             const clienteFromDB = await app
-                .db("cadastro_clientes")
+                .db(table)
                 .where({ id: codigoParams })
                 .first();
             existeOuErro(
@@ -134,7 +133,7 @@ module.exports = (app) => {
             return res.status(400).send(msg);
         }
         await app
-            .db("cadastro_clientes")
+            .db(table)
             .update({ excluido_em: app.db.fn.now() })
             .where({ id: codigoParams })
             .then(() => res.status(204).send())

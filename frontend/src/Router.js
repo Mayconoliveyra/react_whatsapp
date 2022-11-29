@@ -8,8 +8,8 @@ export default function MainRoutes() {
     <Routes>
       <Route path="/" element={<Clientes />} />
       <Route path="/clientes" element={<Clientes />} />
-      <Route path="/cliente/novo" element={<FormClientes />} />
-      <Route path="/cliente/alterar/:id" element={<FormClientes />} />
+      <Route path="/clientes/novo" element={<FormClientes />} />
+      <Route path="/clientes/alterar/:id" element={<FormClientes />} />
     </Routes>
   );
 }

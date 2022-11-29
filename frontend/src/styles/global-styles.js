@@ -71,21 +71,15 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  input:active,
-  select:active, 
-  button:active {
-    outline-style: none !important;
-    box-shadow: 0 0 0 0 !important;
-    outline: 0 !important;
-    transform: scale(0.997);
-  }
-
   input:focus, 
-  button:focus,
   select:focus {
-    outline-style: none !important;
-    box-shadow: 0 0 0 0 !important;
     outline: 0 !important;
+    transform: scale(0.99);
+  }
+  
+  a:active,
+  button:active{
+    transform: scale(0.98);
   }
   
   .table {

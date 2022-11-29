@@ -15,8 +15,9 @@ export const scheme = Yup.object().shape({
 
 const prefix = "/clientes";
 
-export const all = async (page = 1, limit = 150) => {
-  return await api.get(`${prefix}?_page=${page}&_limit=${limit}`);
+export const get = async ({ page = 1, limit = 150, id = null }) => {
+  const _id = id ? `&_id=${id}` : ''
+  return await api.get(`${prefix}?_page=${page}&_limit=${limit}${_id}`);
 };
 
 export const store = async (data, id = null) => {

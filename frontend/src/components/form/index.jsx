@@ -1,7 +1,6 @@
 import MaskedInput from "react-text-mask";
 import { Form, Field, ErrorMessage } from "formik";
 import styled from "styled-components";
-import Modal from 'react-bootstrap/Modal';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -55,19 +54,8 @@ export const FormC = (props) => {
   );
 };
 
-export const GroupC = ({
-  name,
-  label,
-  type = "text",
-  autocomplete = "off",
-  maxlength = 255,
-  mask = false,
-  sm,
-  md,
-  lg = 6,
-  xl = 4,
-  xxl = 3,
-}) => {
+export const GroupC = ({ name, label, type = "text", autocomplete = "off", maxlength = 255, mask = false,
+  sm, md, lg = 6, xl = 4, xxl = 3 }) => {
   const propsGroup = {
     sm,
     md,
@@ -75,7 +63,6 @@ export const GroupC = ({
     xl,
     xxl,
   };
-
   return (
     <GroupSC {...propsGroup}>
       <label htmlFor={name}>{label}</label>
@@ -115,19 +102,8 @@ export const GroupC = ({
     </GroupSC>
   );
 };
-export const GroupSelect = ({
-  name,
-  label,
-  type = "text",
-  autocomplete = "off",
-  maxlength = 255,
-  mask = false,
-  sm,
-  md,
-  lg = 6,
-  xl = 4,
-  xxl = 3,
-}) => {
+export const GroupSelect = ({ name, label, data = [],
+  sm, md, lg = 6, xl = 4, xxl = 3 }) => {
   const propsGroup = {
     sm,
     md,
@@ -135,31 +111,23 @@ export const GroupSelect = ({
     xl,
     xxl,
   };
-
   return (
     <GroupSC {...propsGroup}>
       <label htmlFor={name}>{label}</label>
-
-      {!mask && (
-        <Field name={name} as="select">
-          {({ field }) => (
-            <select
-              {...field}
-              id={name}
-              type={type}
-              maxLength={maxlength}
-              autoComplete={autocomplete}
-              value={field.value || ''}
-
-            >
-              <option value="Selecione">Selecione</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino">Feminino</option>
-            </select>
-          )}
-        </Field>
-      )}
-
+      <Field children name={name}>
+        {({ field }) => (
+          <select
+            {...field}
+            id={name}
+            name={name}
+            value={field.value || ''}
+          >
+            {data.map((item, key) => {
+              return <option key={key} value={item.value}>{item.name}</option>
+            })}
+          </select>
+        )}
+      </Field>
       <small>
         <ErrorMessage name={name} />
       </small>

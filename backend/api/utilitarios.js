@@ -102,7 +102,7 @@ module.exports = (app) => {
             };
             app.db
                 .insert(moodelo)
-                .table("wpp_mensagens_backend")
+                .table("error_backend")
                 .then()
                 .catch((erro) =>
                     console.log("ERRO PARA SALVAR util_console. " + erro)
