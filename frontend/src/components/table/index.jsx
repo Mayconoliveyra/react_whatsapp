@@ -7,7 +7,7 @@ const TmenuSC = styled.div`
   justify-content: space-between;
   padding: 5px;
 
-  [data-title] {
+  [data-title="h2"] {
     display: flex;
     align-items: flex-end;
     h2 {
@@ -17,7 +17,7 @@ const TmenuSC = styled.div`
       padding: 0px;
     }
   }
-  [data-link] {
+  [data-title="link"] {
     a {
       border: none;
       background-color: transparent;
@@ -55,6 +55,11 @@ const TmenuSC = styled.div`
         margin-right: 8px;
         font-size: 19px;
       }
+    }
+
+    [data-btn="sicronizar"] {
+      background-color: ${theme.colors.secondaryColor};
+      color: ${theme.colors.primaryColor};
     }
   }
 `;

@@ -52,9 +52,11 @@ export const GlobalStyles = createGlobalStyle`
     list-style-type: none;
   }
 
-  a,button {
+  a,
+  button {
     text-decoration:none;
     color:  #252644; /* cor padrão */
+
     &:hover{
       cursor: pointer;
       text-decoration:none;
@@ -68,18 +70,25 @@ export const GlobalStyles = createGlobalStyle`
       opacity: 100% !important;
     }
   }
-    input:active, button:active {
+
+  input:active,
+  select:active, 
+  button:active {
+    outline-style: none !important;
+    box-shadow: 0 0 0 0 !important;
+    outline: 0 !important;
+    transform: scale(0.997);
+  }
+
+  input:focus, 
+  button:focus,
+  select:focus {
     outline-style: none !important;
     box-shadow: 0 0 0 0 !important;
     outline: 0 !important;
   }
-    input:focus, button:focus {
-    outline-style: none !important;
-    box-shadow: 0 0 0 0 !important;
-    outline: 0 !important;
-  }
+  
   .table {
     width: 100%;
-   /*  overflow-y: auto; */
   }
 `;

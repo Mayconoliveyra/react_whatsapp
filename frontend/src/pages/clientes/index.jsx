@@ -11,7 +11,7 @@ import {
 import { all } from "../../adapters/clientes";
 import { theme } from "../../styles/theme";
 import PageTitle from "../../components/pageTitle";
-import { ButtonC, InputSearch } from "../../components/button";
+import { InputSearch } from "../../components/button";
 
 import {
   Tmenu,
@@ -85,10 +85,6 @@ export default function Clientes() {
       });
   };
 
-  const cssTdDefault = {
-    maxWidth: 999,
-    fontWeight: "bold",
-  };
   return (
     <>
       <PageTitle
@@ -98,28 +94,23 @@ export default function Clientes() {
       />
 
       <Tmenu>
-        <div data-title>
+        <div data-title="h2">
           <h2>Clientes</h2>
         </div>
 
         <div>
           <InputSearch></InputSearch>
-          <Link to="/clientes/novo">
+          <Link to="/cliente/novo">
             <PersonCircle /> Novo cliente
           </Link>
-          <ButtonC>
+          <button type="button">
             <CloudDownload />
             Importar contatos
-          </ButtonC>
-          <ButtonC
-            css={{
-              backgroundColor: theme.colors.secondaryColor,
-              color: theme.colors.primaryColor,
-            }}
-          >
+          </button>
+          <button type="button" data-btn="sicronizar">
             <VinylFill />
             Sicronizar contatos
-          </ButtonC>
+          </button>
         </div>
       </Tmenu>
 
@@ -129,7 +120,9 @@ export default function Clientes() {
             {clientes.map((item) => {
               return (
                 <tr key={item.id}>
-                  <TdDefault css={cssTdDefault}>{item.nome}</TdDefault>
+                  <TdDefault css={{ maxWidth: 999, fontWeight: "bold" }}>
+                    {item.nome}
+                  </TdDefault>
                   <TdDescription css={{ maxWidth: 150 }} descricao="Numero">
                     {item.nmr_contato}
                   </TdDescription>

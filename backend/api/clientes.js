@@ -1,10 +1,11 @@
 module.exports = (app) => {
-    const { existeOuErro, naoExisteOuErro, util_console, msgPadraoErro } =
+    const { existeOuErro, notExistOrError, util_console, msgPadraoErro, formatBody, notExistOrErrorDB } =
         app.api.utilitarios;
     const { LimitOFFSET, orderBy, whereNullExcluido } = app.api.queries;
 
     const save = async (req, res) => {
-        const body = req.body;
+        const table = "cadastro_clientes";
+        const body = formatBody(req.body)
         const idParams = Number(req.params.id);
 
         const modelo = {
@@ -14,6 +15,7 @@ module.exports = (app) => {
             cpf_cnpj: body.cpf_cnpj,
             codigo_integracao: body.codigo_integracao,
             sexo: body.sexo,
+            nascimento: body.nascimento,
             id_dispositivo: body.id_dispositivo,
             id_categoria: body.id_categoria,
         };
@@ -21,27 +23,19 @@ module.exports = (app) => {
         try {
             existeOuErro(modelo.nome, "Nome é obrigatório");
             existeOuErro(modelo.nmr_contato, "Número de contato é obrigatório");
-            modelo.nmr_contato = modelo.nmr_contato
-                .normalize("NFD")
-                .replace(/[^a-zA-Z0-9s]/g, "");
-            if (modelo.nmr_contato.length != 10)
-                throw "Número de contato deve ter exatamente 10 caracteres";
+            if (modelo.nmr_contato.length != 14)
+                throw "O número de contato é inválido.";
 
-            const contatoDB = await app
-                .db("cadastro_clientes")
-                .where({ nmr_contato: modelo.nmr_contato })
-                .andWhere("id", "!=", `'${idParams}'`)
-                .first();
-            naoExisteOuErro(
-                contatoDB,
-                "Já existe cadastro para o [Número de contato*]."
-            );
+            const prefixo = "Já existe cadastro para o "
+            await notExistOrErrorDB({ table: table, column: 'nmr_contato', data: modelo.nmr_contato, id: idParams }, `${prefixo}[Número de contato*].`)
+            await notExistOrErrorDB({ table: table, column: 'email', data: modelo.email, id: idParams }, `${prefixo}[E-mail*].`)
+            await notExistOrErrorDB({ table: table, column: 'codigo_integracao', data: modelo.codigo_integracao, id: idParams }, `${prefixo}[Cód. integrar].`)
         } catch (msg) {
             return res.status(400).send(msg);
         }
 
         if (idParams) {
-            app.db("cadastro_clientes")
+            app.db(table)
                 .update(modelo)
                 .where({ id: idParams })
                 .then(() => res.status(204).send())
@@ -56,7 +50,7 @@ module.exports = (app) => {
                     return res.status(500).send(msgPadraoErro);
                 });
         } else {
-            app.db("cadastro_clientes")
+            app.db(table)
                 .insert(modelo)
                 .then(() => res.status(204).send())
                 .catch((error) => {
@@ -76,6 +70,24 @@ module.exports = (app) => {
         const table = "cadastro_clientes";
         const page = req.query._page;
         const limit = req.query._limit;
+        const id = req.query._id;
+
+        if (id) {
+            await app.db("cadastro_clientes").where({ id: id }).whereNull("excluido_em").first()
+                .then(cliente => res.json(cliente))
+                .catch((error) => {
+                    util_console({
+                        funcao: "clientes.getID",
+                        tipo: "ERRO-500",
+                        mensagem: "Não foi possível consultar p cliente.",
+                        erro: error,
+                        salvarDB: true,
+                    });
+                    return res.status(500).send(msgPadraoErro);
+                });
+
+            return
+        }
 
         const dados = await app.db.raw(
             `SELECT * FROM ${table} 

@@ -11,7 +11,7 @@ module.exports = (app) => {
         if (Array.isArray(value) && value.length === 0) throw msg;
         if (typeof value === "string" && !value.trim()) throw msg;
     }
-    function naoExisteOuErro(value, msg) {
+    function notExistOrError(value, msg) {
         try {
             existeOuErro(value, msg);
         } catch (msg) {
@@ -19,6 +19,18 @@ module.exports = (app) => {
         }
         throw msg;
     }
+
+    async function notExistOrErrorDB({ table, column, data, id }, msg) {
+        const dataDB = await app.db.raw(`
+        SELECT * FROM 
+        ${table} 
+        WHERE ${column} = '${data}' 
+        AND id != '${id}'`)
+
+        notExistOrError(dataDB[0], msg)
+        return
+    }
+
     async function naoExisteNoBancoOuErro(
         nomeTabelaBD,
         nomeColunaBD,
@@ -134,9 +146,25 @@ module.exports = (app) => {
         //se passar por todas as validações acima, então está tudo certo
     }
 
+    function formatBody(reqBody) {
+        let bodyReturn = {};
+        Object.keys(reqBody).forEach(key => {
+            bodyReturn = { [key]: reqBody[key] ? reqBody[key] : null, ...bodyReturn }
+        });
+        return bodyReturn
+    }
+
+
+
+    function removeAll(valor) {
+        return valor.normalize("NFD")
+            .replace(/[^a-zA-Z0-9s]/g, "");
+    }
+
     return {
         existeOuErro,
-        naoExisteOuErro,
+        notExistOrError,
+        notExistOrErrorDB,
         naoExisteNoBancoOuErro,
         existeNoBancoOuErro,
         criptografar,
@@ -145,5 +173,7 @@ module.exports = (app) => {
         msgPadraoErro,
         dataAtualFormatadaBR,
         contatoValidoOuErro,
+        formatBody,
+        removeAll
     };
 };

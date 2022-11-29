@@ -8,9 +8,9 @@ export const scheme = Yup.object().shape({
   nome: Yup.string().required().label("Nome"),
   nmr_contato: Yup.string()
     .required()
-    .length(14, "Número de contato deve ter exatamente 10 caracteres")
+    .length(14, "O número de contato é inválido.")
     .label("Número de contato"),
-  email: Yup.string().email().label("E-mail"),
+  email: Yup.string().email().label("E-mail").nullable(),
 });
 
 const prefix = "/clientes";

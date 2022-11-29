@@ -1,10 +1,11 @@
 import MaskedInput from "react-text-mask";
 import { Form, Field, ErrorMessage } from "formik";
 import styled from "styled-components";
-import { theme } from "../../styles/theme";
-
+import Modal from 'react-bootstrap/Modal';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
+import { theme } from "../../styles/theme";
 
 const FormSC = styled(Form)`
   box-shadow: 0 0px 5px rgb(0 0 0 / 27%);
@@ -21,7 +22,7 @@ const GroupSC = styled(Col)`
     font-size: ${theme.font.sizes.small};
   }
 
-  input {
+  input, select {
     display: block;
     width: 100%;
     padding: 0.27rem 0.5rem;
@@ -35,6 +36,11 @@ const GroupSC = styled(Col)`
       border: solid 1px #33355b;
     }
   }
+
+  select {
+      padding: 0.35rem 0.5rem;
+  }
+  
   small {
     margin-left: 3px;
     color: #fe316c;
@@ -54,6 +60,7 @@ export const GroupC = ({
   label,
   type = "text",
   autocomplete = "off",
+  maxlength = 255,
   mask = false,
   sm,
   md,
@@ -72,18 +79,86 @@ export const GroupC = ({
   return (
     <GroupSC {...propsGroup}>
       <label htmlFor={name}>{label}</label>
-      <Field name={name}>
-        {({ field }) => (
-          <MaskedInput
-            {...field}
-            id={name}
-            type={type}
-            mask={mask}
-            autoComplete={autocomplete}
-            guide={false}
-          />
-        )}
-      </Field>
+      {!mask && (
+        <Field name={name}>
+          {({ field }) => (
+            <input
+              {...field}
+              id={name}
+              type={type}
+              maxLength={maxlength}
+              autoComplete={autocomplete}
+              value={field.value || ''}
+            />
+          )}
+        </Field>
+      )}
+      {!!mask && (
+        <Field name={name}>
+          {({ field }) => (
+            <MaskedInput
+              {...field}
+              id={name}
+              type={type}
+              maxLength={maxlength}
+              autoComplete={autocomplete}
+              mask={mask}
+              guide={false}
+              value={field.value || ''}
+            />
+          )}
+        </Field>
+      )}
+      <small>
+        <ErrorMessage name={name} />
+      </small>
+    </GroupSC>
+  );
+};
+export const GroupSelect = ({
+  name,
+  label,
+  type = "text",
+  autocomplete = "off",
+  maxlength = 255,
+  mask = false,
+  sm,
+  md,
+  lg = 6,
+  xl = 4,
+  xxl = 3,
+}) => {
+  const propsGroup = {
+    sm,
+    md,
+    lg,
+    xl,
+    xxl,
+  };
+
+  return (
+    <GroupSC {...propsGroup}>
+      <label htmlFor={name}>{label}</label>
+
+      {!mask && (
+        <Field name={name} as="select">
+          {({ field }) => (
+            <select
+              {...field}
+              id={name}
+              type={type}
+              maxLength={maxlength}
+              autoComplete={autocomplete}
+              value={field.value || ''}
+
+            >
+              <option value="Selecione">Selecione</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+            </select>
+          )}
+        </Field>
+      )}
 
       <small>
         <ErrorMessage name={name} />

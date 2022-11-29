@@ -2,11 +2,11 @@ exports.up = function (knex) {
     return knex.schema
         .createTable("cadastro_clientes", (table) => {
             table.increments("id").primary();
-            table.string("nome");
-            table.string("nmr_contato", 10).notNull(); /* xx xxxx xxxx */
-            table.string("email");
+            table.string("nome").notNull();
+            table.string("nmr_contato", 14).notNull().unique(); /* (xx) xxxx-xxxx */
+            table.string("email").unique();
             table.string("cpf_cnpj");
-            table.string("codigo_integracao");
+            table.string("codigo_integracao").unique();
 
             table
                 .enu("sexo", ["Selecione", "Masculino", "Feminino"])
@@ -28,39 +28,20 @@ exports.up = function (knex) {
             return knex("cadastro_clientes").insert([
                 {
                     nome: "Mãe",
-                    nmr_contato: "8398575993",
+                    nmr_contato: "(83) 9857-5991",
                     sexo: "Feminino",
                 },
                 {
                     nome: "Caline",
-                    nmr_contato: "8398382198",
+                    nmr_contato: "(83) 9857-5992",
                     sexo: "Feminino",
                 },
                 {
                     nome: "Deposito Cazimi",
-                    nmr_contato: "8399847569",
+                    nmr_contato: "(83) 9857-5993",
                     sexo: "Masculino",
-                },
-                {
-                    nome: "Depósito Cazimi",
-                    nmr_contato: "8399847569",
-                    sexo: "Masculino",
-                },
-                {
-                    nome: "Jose Irmão",
-                    nmr_contato: "8396468517",
-                    sexo: "Masculino",
-                },
-                {
-                    nome: "Anny",
-                    nmr_contato: "8181374480",
-                    sexo: "Feminino",
-                },
-                {
-                    nome: "Mayla",
-                    nmr_contato: "8387967390",
-                    sexo: "Feminino",
-                },
+                }
+
             ]);
         });
 };
